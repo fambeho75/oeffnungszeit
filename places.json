@@ -1383,6 +1383,101 @@
       ],
       "source": "systembolaget.se",
       "checked": "2026-10-19"
+    },
+    {
+      "id": "spice-n-rice",
+      "name": "Spice 'n Rice",
+      "address": "Rådhusgatan 6, Commerce huset, 541 30 Skövde",
+      "website": "https://www.spicenrice.se/",
+      "note": "Asian street-food restaurant (Thai and Vietnamese) in Commerce. Weekly hours and the Skövde holiday lines are the restaurant list on spicenrice.se: Mon–Sat 11:00–21:00, Sun 12:00–20:00. Lunch 11:00–15:00 on weekdays is a menu period, not a closure. That page closes Julafton and Juldagen and opens Nyårsafton 10:00–15:00; it does not list other red days for Skövde. Directories call the same restaurant Hertig Johans Torg 4, which is Commerce’s address, and use the same phone 0500-49 42 04. Wolt and Uber list shorter delivery windows.",
+      "hours": {
+        "mon": [
+          {
+            "open": "11:00",
+            "close": "21:00"
+          }
+        ],
+        "tue": [
+          {
+            "open": "11:00",
+            "close": "21:00"
+          }
+        ],
+        "wed": [
+          {
+            "open": "11:00",
+            "close": "21:00"
+          }
+        ],
+        "thu": [
+          {
+            "open": "11:00",
+            "close": "21:00"
+          }
+        ],
+        "fri": [
+          {
+            "open": "11:00",
+            "close": "21:00"
+          }
+        ],
+        "sat": [
+          {
+            "open": "11:00",
+            "close": "21:00"
+          }
+        ],
+        "sun": [
+          {
+            "open": "12:00",
+            "close": "20:00"
+          }
+        ]
+      },
+      "exceptions": [
+        {
+          "date": "2026-12-24",
+          "hours": "closed",
+          "label": "Julafton"
+        },
+        {
+          "date": "2026-12-25",
+          "hours": "closed",
+          "label": "Juldagen"
+        },
+        {
+          "date": "2026-12-31",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "15:00"
+            }
+          ],
+          "label": "Nyårsafton"
+        },
+        {
+          "date": "2027-12-24",
+          "hours": "closed",
+          "label": "Julafton"
+        },
+        {
+          "date": "2027-12-25",
+          "hours": "closed",
+          "label": "Juldagen"
+        },
+        {
+          "date": "2027-12-31",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "15:00"
+            }
+          ],
+          "label": "Nyårsafton"
+        }
+      ],
+      "source": "spicenrice.se",
+      "checked": "2026-10-19"
     }
   ]
 }

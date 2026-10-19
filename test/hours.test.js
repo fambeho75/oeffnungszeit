@@ -37,10 +37,10 @@ function partsAt(iso, ymd, key, hhmm) {
 assert(hours.TZ === "Europe/Stockholm", "timezone constant");
 assert(catalog.timezone === "Europe/Stockholm", "catalog timezone");
 assert(catalog.updated === "2026-10-19", "catalog updated date");
-assert(catalog.places.length === 10, "ten shipped places");
+assert(catalog.places.length === 11, "eleven shipped places");
 assert(
   JSON.stringify(catalog.places.map((place) => place.id)) ===
-    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget", "systembolaget-nolhaga"]),
+    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget", "systembolaget-nolhaga", "spice-n-rice"]),
   "place order"
 );
 
@@ -191,6 +191,29 @@ assert(hours.statusAt(nolhaga, new Date("2026-12-31T13:59:00Z")) === "open", "no
 assert(hours.statusAt(nolhaga, new Date("2026-12-31T14:00:00Z")) === "closed", "nolhaga Nyårsafton closes 15:00");
 assert(hours.todayLine(nolhaga, new Date("2026-12-31T12:00:00Z")) === "10:00–15:00", "nolhaga Nyårsafton line");
 assert(hours.statusAt(nolhaga, new Date("2027-06-25T10:00:00Z")) === "closed", "nolhaga Midsommarafton");
+
+const spice = byId("spice-n-rice");
+assert(spice.name === "Spice 'n Rice", "spice name");
+assert(spice.address === "Rådhusgatan 6, Commerce huset, 541 30 Skövde", "spice address");
+assert(spice.source === "spicenrice.se", "spice source");
+["mon", "tue", "wed", "thu", "fri", "sat"].forEach((key) => sameSlots(spice.hours[key], "11:00", "21:00"));
+sameSlots(spice.hours.sun, "12:00", "20:00");
+assert(hours.statusAt(spice, new Date("2026-10-19T08:59:00Z")) === "closed", "spice before 11:00");
+assert(hours.statusAt(spice, new Date("2026-10-19T09:00:00Z")) === "open", "spice opens 11:00");
+assert(hours.statusAt(spice, new Date("2026-10-19T18:59:00Z")) === "open", "spice Monday 20:59");
+assert(hours.statusAt(spice, new Date("2026-10-19T19:00:00Z")) === "closed", "spice Monday closes 21:00");
+assert(hours.statusAt(spice, new Date("2026-10-18T09:59:00Z")) === "closed", "spice Sunday before 12:00");
+assert(hours.statusAt(spice, new Date("2026-10-18T10:00:00Z")) === "open", "spice Sunday opens 12:00");
+assert(hours.statusAt(spice, new Date("2026-10-18T17:59:00Z")) === "open", "spice Sunday 19:59");
+assert(hours.statusAt(spice, new Date("2026-10-18T18:00:00Z")) === "closed", "spice Sunday closes 20:00");
+assert(hours.statusAt(spice, new Date("2026-12-24T10:00:00Z")) === "closed", "spice Julafton");
+assert(hours.statusAt(spice, new Date("2026-12-25T10:00:00Z")) === "closed", "spice Juldagen");
+assert(hours.statusAt(spice, new Date("2026-12-31T08:59:00Z")) === "closed", "spice Nyårsafton before 10:00");
+assert(hours.statusAt(spice, new Date("2026-12-31T09:00:00Z")) === "open", "spice Nyårsafton opens 10:00");
+assert(hours.statusAt(spice, new Date("2026-12-31T13:59:00Z")) === "open", "spice Nyårsafton 14:59");
+assert(hours.statusAt(spice, new Date("2026-12-31T14:00:00Z")) === "closed", "spice Nyårsafton closes 15:00");
+assert(hours.todayLine(spice, new Date("2026-12-31T12:00:00Z")) === "10:00–15:00", "spice Nyårsafton line");
+assert(!spice.exceptions.some((ex) => ex.date === "2027-06-25"), "spice does not invent Midsommarafton");
 
 const splitDay = {
   hours: {
