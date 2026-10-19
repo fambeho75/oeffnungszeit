@@ -381,7 +381,7 @@
         ]
       },
       "exceptions": [],
-      "source": "listings; lidl.se says Mon–Fri 08:00–19:00",
+      "source": "lidl.se + other listings",
       "checked": "2026-10-19"
     },
     {
