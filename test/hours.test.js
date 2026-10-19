@@ -37,10 +37,10 @@ function partsAt(iso, ymd, key, hhmm) {
 assert(hours.TZ === "Europe/Stockholm", "timezone constant");
 assert(catalog.timezone === "Europe/Stockholm", "catalog timezone");
 assert(catalog.updated === "2026-10-19", "catalog updated date");
-assert(catalog.places.length === 8, "eight shipped places");
+assert(catalog.places.length === 9, "nine shipped places");
 assert(
   JSON.stringify(catalog.places.map((place) => place.id)) ===
-    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank"]),
+    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget"]),
   "place order"
 );
 
@@ -136,6 +136,37 @@ const swedbankDates = new Set(swedbank.exceptions.map((ex) => ex.date));
 });
 assert(!swedbankDates.has("2026-01-01"), "past Nyårsdagen is not repeated");
 assert(swedbank.exceptions.every((ex) => ex.hours === "closed"), "swedbank exceptions are closed");
+
+const systembolaget = byId("systembolaget");
+assert(systembolaget.name === "Systembolaget Skövde", "systembolaget name");
+assert(systembolaget.address === "Hertig Johans Torg 4, 541 30 Skövde", "systembolaget address");
+assert(systembolaget.source === "systembolaget.se", "systembolaget source");
+["mon", "tue", "wed", "thu"].forEach((key) => sameSlots(systembolaget.hours[key], "10:00", "18:00"));
+sameSlots(systembolaget.hours.fri, "10:00", "19:00");
+sameSlots(systembolaget.hours.sat, "10:00", "15:00");
+assert(systembolaget.hours.sun === "closed", "systembolaget sunday");
+assert(hours.statusAt(systembolaget, new Date("2026-10-19T07:59:00Z")) === "closed", "systembolaget before 10:00");
+assert(hours.statusAt(systembolaget, new Date("2026-10-19T08:00:00Z")) === "open", "systembolaget opens 10:00");
+assert(hours.statusAt(systembolaget, new Date("2026-10-19T15:59:00Z")) === "open", "systembolaget Monday 17:59");
+assert(hours.statusAt(systembolaget, new Date("2026-10-19T16:00:00Z")) === "closed", "systembolaget Monday closes 18:00");
+assert(hours.statusAt(systembolaget, new Date("2026-10-23T16:59:00Z")) === "open", "systembolaget Friday 18:59");
+assert(hours.statusAt(systembolaget, new Date("2026-10-23T17:00:00Z")) === "closed", "systembolaget Friday closes 19:00");
+assert(hours.statusAt(systembolaget, new Date("2026-10-24T12:59:00Z")) === "open", "systembolaget Saturday 14:59");
+assert(hours.statusAt(systembolaget, new Date("2026-10-24T13:00:00Z")) === "closed", "systembolaget Saturday closes 15:00");
+assert(hours.statusAt(systembolaget, new Date("2026-10-25T08:00:00Z")) === "closed", "systembolaget Sunday");
+assert(hours.statusAt(systembolaget, new Date("2026-10-31T08:00:00Z")) === "closed", "systembolaget Alla helgons dag");
+assert(hours.resolveDay(systembolaget, new Date("2026-10-31T08:00:00Z")).label === "Alla helgons dag", "systembolaget holiday label");
+assert(hours.statusAt(systembolaget, new Date("2026-12-22T17:30:00Z")) === "open", "systembolaget 22 Dec stays open until 19:00");
+assert(hours.statusAt(systembolaget, new Date("2026-12-22T18:00:00Z")) === "closed", "systembolaget 22 Dec closes 19:00");
+assert(hours.statusAt(systembolaget, new Date("2026-12-24T10:00:00Z")) === "closed", "systembolaget Julafton");
+assert(hours.statusAt(systembolaget, new Date("2026-12-31T13:59:00Z")) === "open", "systembolaget Nyårsafton 14:59");
+assert(hours.statusAt(systembolaget, new Date("2026-12-31T14:00:00Z")) === "closed", "systembolaget Nyårsafton closes 15:00");
+assert(hours.statusAt(systembolaget, new Date("2027-01-05T11:00:00Z")) === "open", "systembolaget Trettondagsafton follows Tuesday hours");
+assert(hours.statusAt(systembolaget, new Date("2027-01-06T11:00:00Z")) === "closed", "systembolaget Trettondagen");
+assert(hours.statusAt(systembolaget, new Date("2027-03-27T13:59:00Z")) === "open", "systembolaget Påskafton 14:59");
+assert(hours.statusAt(systembolaget, new Date("2027-03-27T14:00:00Z")) === "closed", "systembolaget Påskafton closes 15:00");
+assert(hours.statusAt(systembolaget, new Date("2027-06-25T10:00:00Z")) === "closed", "systembolaget Midsommarafton");
+assert(hours.todayLine(systembolaget, new Date("2026-12-31T12:00:00Z")) === "10:00–15:00", "systembolaget Nyårsafton line");
 
 const splitDay = {
   hours: {

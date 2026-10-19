@@ -853,6 +853,271 @@
       ],
       "source": "swedbank.se",
       "checked": "2026-10-19"
+    },
+    {
+      "id": "systembolaget",
+      "name": "Systembolaget Skövde",
+      "address": "Hertig Johans Torg 4, 541 30 Skövde",
+      "website": "https://www.systembolaget.se/butiker-ombud/butik/vastra-gotalands-lan/skovde/hertig-johans-torg-4-1606/",
+      "note": "City-centre store, site 1606. Weekly hours are the store record for 19 Oct–3 Nov 2026: Mon–Thu 10:00–18:00, Fri 10:00–19:00, Sat 10:00–15:00, Sun closed. The holiday page lists this season through 6 Jan 2027. Later 2027 dates use those same rules: red days closed, midsommarafton and julafton closed, påskafton and nyårsafton 10:00–15:00, and 22–23 plus 29–30 Dec (and the Thursday before midsommar) open until 19:00. The other Skövde store, Nolhagavägen 1, is not in this list.",
+      "hours": {
+        "mon": [
+          {
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ],
+        "tue": [
+          {
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ],
+        "wed": [
+          {
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ],
+        "thu": [
+          {
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ],
+        "fri": [
+          {
+            "open": "10:00",
+            "close": "19:00"
+          }
+        ],
+        "sat": [
+          {
+            "open": "10:00",
+            "close": "15:00"
+          }
+        ],
+        "sun": "closed"
+      },
+      "exceptions": [
+        {
+          "date": "2026-10-31",
+          "hours": "closed",
+          "label": "Alla helgons dag"
+        },
+        {
+          "date": "2026-12-22",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Julveckan"
+        },
+        {
+          "date": "2026-12-23",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Julveckan"
+        },
+        {
+          "date": "2026-12-24",
+          "hours": "closed",
+          "label": "Julafton"
+        },
+        {
+          "date": "2026-12-25",
+          "hours": "closed",
+          "label": "Juldagen"
+        },
+        {
+          "date": "2026-12-26",
+          "hours": "closed",
+          "label": "Annandag jul"
+        },
+        {
+          "date": "2026-12-29",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Nyårsveckan"
+        },
+        {
+          "date": "2026-12-30",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Nyårsveckan"
+        },
+        {
+          "date": "2026-12-31",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "15:00"
+            }
+          ],
+          "label": "Nyårsafton"
+        },
+        {
+          "date": "2027-01-01",
+          "hours": "closed",
+          "label": "Nyårsdagen"
+        },
+        {
+          "date": "2027-01-06",
+          "hours": "closed",
+          "label": "Trettondedag jul"
+        },
+        {
+          "date": "2027-03-26",
+          "hours": "closed",
+          "label": "Långfredagen"
+        },
+        {
+          "date": "2027-03-27",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "15:00"
+            }
+          ],
+          "label": "Påskafton"
+        },
+        {
+          "date": "2027-03-28",
+          "hours": "closed",
+          "label": "Påskdagen"
+        },
+        {
+          "date": "2027-03-29",
+          "hours": "closed",
+          "label": "Annandag påsk"
+        },
+        {
+          "date": "2027-05-01",
+          "hours": "closed",
+          "label": "1 maj"
+        },
+        {
+          "date": "2027-05-06",
+          "hours": "closed",
+          "label": "Kristi himmelsfärdsdag"
+        },
+        {
+          "date": "2027-05-16",
+          "hours": "closed",
+          "label": "Pingstdagen"
+        },
+        {
+          "date": "2027-06-06",
+          "hours": "closed",
+          "label": "Nationaldagen"
+        },
+        {
+          "date": "2027-06-24",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Inför midsommar"
+        },
+        {
+          "date": "2027-06-25",
+          "hours": "closed",
+          "label": "Midsommarafton"
+        },
+        {
+          "date": "2027-06-26",
+          "hours": "closed",
+          "label": "Midsommardagen"
+        },
+        {
+          "date": "2027-11-06",
+          "hours": "closed",
+          "label": "Alla helgons dag"
+        },
+        {
+          "date": "2027-12-22",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Julveckan"
+        },
+        {
+          "date": "2027-12-23",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Julveckan"
+        },
+        {
+          "date": "2027-12-24",
+          "hours": "closed",
+          "label": "Julafton"
+        },
+        {
+          "date": "2027-12-25",
+          "hours": "closed",
+          "label": "Juldagen"
+        },
+        {
+          "date": "2027-12-26",
+          "hours": "closed",
+          "label": "Annandag jul"
+        },
+        {
+          "date": "2027-12-29",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Nyårsveckan"
+        },
+        {
+          "date": "2027-12-30",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "19:00"
+            }
+          ],
+          "label": "Nyårsveckan"
+        },
+        {
+          "date": "2027-12-31",
+          "hours": [
+            {
+              "open": "10:00",
+              "close": "15:00"
+            }
+          ],
+          "label": "Nyårsafton"
+        }
+      ],
+      "source": "systembolaget.se",
+      "checked": "2026-10-19"
     }
   ]
 }

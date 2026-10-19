@@ -57,10 +57,13 @@ Shipped on 19 Oct 2026. Re-check the pages below when seasons change. Weekly hou
 | Willys Skövde, Jonstorpsgatan 25, 541 66 Skövde | Every day 08:00–21:00 | [willys.se](https://www.willys.se/butik/skovde/willys-stallsiken-2270) store 2270. Special dates: Alla helgons afton and Alla helgons dag 08:00–21:00, Julafton 08:00–14:00, Juldagen and Annandag jul 08:00–21:00, Nyårsafton 08:00–19:00, Nyårsdagen 09:00–21:00, Trettondagen 08:00–21:00. |
 | Biltema Skövde, Norra Metallvägen 4, 549 37 Skövde | Mon–Fri 07:00–20:00, Sat–Sun 09:00–18:00 | [biltema.se](https://www.biltema.se/varuhus-och-oppettider/skovde/) |
 | Swedbank Skövde, Storgatan 15, 541 30 Skövde | Mon–Wed 13:00–16:00, Thu 13:00–17:00, Fri 13:00–15:00, weekends closed | [swedbank.se](https://www.swedbank.se/om-oss/kontakta-oss/kontor/skovde.html) branch record. The page’s holiday table is Stängt; those dates are exceptions for the rest of 2026 and all of 2027. |
+| Systembolaget Skövde, Hertig Johans Torg 4, 541 30 Skövde | Mon–Thu 10:00–18:00, Fri 10:00–19:00, Sat 10:00–15:00, Sun closed | [systembolaget.se](https://www.systembolaget.se/butiker-ombud/butik/vastra-gotalands-lan/skovde/hertig-johans-torg-4-1606/) store 1606. Red days, midsommarafton and julafton closed. Påskafton and nyårsafton 10:00–15:00. 22–23 and 29–30 Dec, and the Thursday before midsommar, open until 19:00. |
 
 Risängen’s page says the centre is closed on public holidays and most eves, and open as usual on Trettondagsafton and Valborg. Those dates are written out in `exceptions` through 6 Jan 2028. Biltema’s Christmas hours from the same page are dated for the 2026 and 2027 seasons (Julafton closed, Juldagen and Annandag jul 09:00–18:00, Nyårsafton 09:00–15:00, Nyårsdagen closed, Trettondedag jul 09:00–18:00).
 
 Coop and ICA have no holiday rows yet. Add them when the official page, or a visit, gives a date and a time.
+
+Skövde’s other Systembolaget, Nolhagavägen 1, 549 38, is not in the list. Its ordinary hours on the same date were Mon–Fri 10:00–19:00, Sat 10:00–15:00, Sun closed.
 
 The footer says **Hours updated** plus the `updated` date from `places.json`.
 
