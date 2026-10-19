@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Öffnungszeit",
   "short_name": "Öffnungszeit",
-  "description": "See if your Skövde shops are open. Hours stay on this phone.",
+  "description": "See if your Skövde shops are open.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -10,7 +10,6 @@
   --accent: #ff6a00;
   --accent-press: #e55f00;
   --on-accent: #111111;
-  --danger: #ff4d4d;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -42,8 +41,8 @@ body {
   flex-direction: column;
 }
 
-button, input, textarea, .btn, .place, .card, .badge, .chip, .logo,
-.week-row, .ex-row, .banner, .confirm {
+button, .btn, .place, .card, .badge, .logo,
+.week-row, .ex-row, .banner {
   border-radius: 0;
 }
 
@@ -337,123 +336,6 @@ details.later summary {
 
 details.later summary::-webkit-details-marker { display: none; }
 
-label, .label {
-  display: block;
-  margin: 16px 0 8px;
-  color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-input[type="text"],
-input[type="time"] {
-  width: 100%;
-  min-height: 52px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font: inherit;
-  font-size: 17px;
-}
-
-input[type="text"] {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-input[type="time"] { font-variant-numeric: tabular-nums; }
-
-input::placeholder { color: var(--faint); }
-
-input:focus { border-color: var(--accent); }
-
-.day {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.day-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.day-name { font-weight: 700; }
-
-.day-times {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.day.is-closed .day-times { display: none; }
-
-.dash { color: var(--muted); font-weight: 700; }
-
-.chip {
-  min-width: 88px;
-  min-height: 44px;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.chip[aria-pressed="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
-}
-
-.chip:active { background: #161616; }
-.chip[aria-pressed="true"]:active { background: var(--accent-press); }
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  margin-top: 16px;
-}
-
-.quiet {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--faint);
-  font: inherit;
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.quiet-danger { color: var(--danger); }
-
-.confirm-inline {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-}
-
 .btn {
   display: flex;
   align-items: center;
@@ -487,30 +369,6 @@ input:focus { border-color: var(--accent); }
   border-color: var(--accent-press);
 }
 
-.btn-danger {
-  border-color: #5c2424;
-  background: transparent;
-  color: var(--danger);
-}
-
-.btn-danger:active {
-  background: var(--danger);
-  border-color: var(--danger);
-  color: #111;
-}
-
-.dock {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-  margin: auto -18px calc(-8px - var(--safe-bottom));
-  padding: 12px 18px calc(12px + var(--safe-bottom));
-  border-top: 1px solid var(--border);
-  background: var(--bg);
-}
-
-.dock .hint { margin: 8px 0 0; }
-
 .meta { margin-top: 6px; }
 
 .updated {
@@ -528,37 +386,6 @@ input:focus { border-color: var(--accent); }
   font-weight: 700;
   text-decoration: none;
 }
-
-.linkish {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--accent);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.confirm {
-  padding: 14px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-}
-
-.confirm p { margin: 0 0 8px; font-weight: 700; }
-.confirm .hint { font-weight: 400; }
-
-.form-error {
-  margin: 12px 0 0;
-  color: var(--danger);
-  font-weight: 700;
-}
-
-.form-error:empty { display: none; }
 
 .noscript { padding: 24px 18px; }
 

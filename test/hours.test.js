@@ -244,23 +244,5 @@ assert(hours.resolveDay(ranged, new Date("2026-12-25T10:30:00Z")).label === "Jul
 assert(hours.statusAt(ranged, new Date("2026-12-25T11:00:00Z")) === "closed", "exact span ends at 12:00");
 assert(hours.statusAt(ranged, new Date("2026-12-26T12:00:00Z")) === "closed", "range still closes the 26th");
 
-const allDay = {};
-hours.WEEKDAYS.forEach((day) => {
-  allDay[day.key] = [{ open: "00:00", close: "23:59" }];
-});
-const merged = hours.mergePlaces(catalog.places, {
-  removed: ["lidl"],
-  overrides: { soptippen: { name: "Tippen", address: "", hours: allDay } },
-  custom: [{ id: "p-test", name: "Kiosk", address: "Skövde", hours: allDay }],
-});
-assert(merged.length === 8, "hide one, add one, still eight");
-assert(!merged.some((place) => place.id === "lidl"), "lidl hidden");
-assert(merged[merged.length - 1].id === "p-test" && merged[merged.length - 1].custom, "custom place last");
-const edited = merged.find((place) => place.id === "soptippen");
-assert(edited.overridden && edited.name === "Tippen" && edited.address === "", "override name and address");
-assert(edited.exceptions.length > 0, "override keeps shipped exceptions");
-assert(hours.statusAt(edited, new Date("2026-10-19T08:00:00Z")) === "open", "override hours on a normal Monday");
-assert(hours.statusAt(edited, new Date("2026-12-24T10:00:00Z")) === "closed", "Julafton still wins over a local edit");
-
 console.log(`${passed} passed, ${failed} failed`);
 if (failed) process.exit(1);

@@ -1,5 +1,6 @@
 /* Öffnungszeit UI. Shared hours come from places.json.
-   Edits on this phone live in localStorage under hours-pin-v1 and win until cleared. */
+   Old on-phone edits lived in localStorage under hours-pin-v1.
+   That data is ignored and cleared once on load. */
 (function () {
   "use strict";
 
@@ -11,7 +12,6 @@
 
   let catalog = null;
   let fetchedAt = 0;
-  const ui = { confirmId: null, error: "" };
 
   function esc(value) {
     return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -23,34 +23,16 @@
     }[ch]));
   }
 
-  function load() {
+  function clearStoredPins() {
     try {
-      const raw = localStorage.getItem(KEY);
-      if (!raw) return { removed: [], overrides: {}, custom: [] };
-      const data = JSON.parse(raw);
-      return {
-        removed: Array.isArray(data.removed) ? data.removed : [],
-        overrides: data.overrides && typeof data.overrides === "object" ? data.overrides : {},
-        custom: Array.isArray(data.custom) ? data.custom : [],
-      };
+      localStorage.removeItem(KEY);
     } catch (err) {
-      return { removed: [], overrides: {}, custom: [] };
-    }
-  }
-
-  function persist(data) {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(data));
-      ui.error = "";
-      return true;
-    } catch (err) {
-      ui.error = "Could not save on this phone.";
-      return false;
+      /* storage unavailable; official hours are shown either way */
     }
   }
 
   function places() {
-    return HoursPin.mergePlaces(catalog.places, load());
+    return catalog.places;
   }
 
   function route() {
@@ -61,12 +43,7 @@
       hash = "/";
     }
     const parts = hash.split("/").filter(Boolean);
-    if (!parts.length) return { name: "home" };
-    if (parts[0] === "add") return { name: "add" };
-    if (parts[0] === "place" && parts[1]) {
-      if (parts[2] === "edit") return { name: "edit", id: parts[1] };
-      return { name: "detail", id: parts[1] };
-    }
+    if (parts[0] === "place" && parts[1]) return { name: "detail", id: parts[1] };
     return { name: "home" };
   }
 
@@ -122,8 +99,7 @@
 
   function shell(body, title) {
     document.title = title;
-    const err = ui.error ? `<p class="form-error">${esc(ui.error)}</p>` : "";
-    document.getElementById("app").innerHTML = `${header()}${err}${body}`;
+    document.getElementById("app").innerHTML = `${header()}${body}`;
   }
 
   function placeRow(place, now) {
@@ -199,22 +175,10 @@
     if (!items.length) return "";
     const today = HoursPin.stockholmParts(now).ymd;
     const soon = items.slice(0, 6).map((ex) => exceptionRow(ex, today)).join("");
-    const later = items.slice(6);
-    const rest = later.length
-      ? `<details class="later"><summary>Later dates (${later.length})</summary><div class="week">${later.map((ex) => exceptionRow(ex, today)).join("")}</div></details>`
+    const later = items.length > 6
+      ? `<details class="later"><summary>Later dates (${items.length - 6})</summary><div class="week">${items.slice(6).map((ex) => exceptionRow(ex, today)).join("")}</div></details>`
       : "";
-    return `<h2 class="section">Exceptions</h2><div class="week">${soon}</div>${rest}`;
-  }
-
-  function removeBlock(place) {
-    if (ui.confirmId !== place.id) {
-      return `<button type="button" class="quiet quiet-danger" data-action="ask-remove" data-id="${esc(place.id)}">Remove</button>`;
-    }
-    return `
-      <span class="confirm-inline">
-        <button type="button" class="quiet quiet-danger" data-action="confirm-remove" data-id="${esc(place.id)}">Remove</button>
-        <button type="button" class="quiet" data-action="cancel-remove">Cancel</button>
-      </span>`;
+    return `<h2 class="section">Exceptions</h2><div class="week">${soon}</div>${later}`;
   }
 
   function renderDetail(id) {
@@ -228,100 +192,17 @@
       return;
     }
     const now = new Date();
+    const bits = todayBits(place, now);
     shell(`
       <main>
         <a class="back" href="#/">Places</a>
         <h2 class="place-title">${esc(place.name)}</h2>
+        <div class="status-row">
+          <span class="badge badge-${bits.status}" data-status-for="${esc(place.id)}">${statusWord(bits.status)}</span>
+        </div>
         ${weekSection(place, now)}
         ${exceptionSection(place, now)}
-        <div class="tools">
-          <a class="quiet" href="${placeHref(place.id)}/edit">Edit hours</a>
-          ${removeBlock(place)}
-        </div>
       </main>`, `${place.name} · Öffnungszeit`);
-  }
-
-  function normTime(value) {
-    const match = /^(\d{1,2}):(\d{2})/.exec(String(value || "").trim());
-    if (!match) return "";
-    return `${String(match[1]).padStart(2, "0")}:${match[2]}`;
-  }
-
-  function dayFields(hours) {
-    return HoursPin.WEEKDAYS.map((day) => {
-      const value = hours && hours[day.key];
-      const closed = value === "closed" || (Array.isArray(value) && value.length === 0);
-      const slot = Array.isArray(value) && value[0] ? value[0] : null;
-      return `
-        <div class="day${closed ? " is-closed" : ""}" data-day="${day.key}">
-          <div class="day-top">
-            <span class="day-name">${day.label}</span>
-            <button type="button" class="chip" data-action="toggle-closed" aria-pressed="${closed ? "true" : "false"}">Closed</button>
-          </div>
-          <div class="day-times">
-            <input type="time" data-open value="${esc(slot ? slot.open : "")}" aria-label="${day.label} opens">
-            <span class="dash" aria-hidden="true">–</span>
-            <input type="time" data-close value="${esc(slot ? slot.close : "")}" aria-label="${day.label} closes">
-          </div>
-        </div>`;
-    }).join("");
-  }
-
-  function nameField(name) {
-    return `
-      <label for="place-name">Name</label>
-      <input id="place-name" name="place-name" type="text" maxlength="80" autocomplete="off" autocapitalize="words" required value="${esc(name)}">`;
-  }
-
-  function defaultHours() {
-    const hours = {};
-    HoursPin.WEEKDAYS.forEach((day) => {
-      if (day.key === "sun") hours[day.key] = "closed";
-      else if (day.key === "sat") hours[day.key] = [{ open: "10:00", close: "16:00" }];
-      else hours[day.key] = [{ open: "08:00", close: "20:00" }];
-    });
-    return hours;
-  }
-
-  function renderAdd() {
-    shell(`
-      <main>
-        <a class="back" href="#/">Places</a>
-        <h2 class="place-title">Add place</h2>
-        <form data-mode="add">
-          ${nameField("")}
-          <p class="label">Hours</p>
-          ${dayFields(defaultHours())}
-          <p class="form-error" role="alert"></p>
-          <div class="dock">
-            <button class="btn btn-primary" type="submit">Pin place</button>
-          </div>
-        </form>
-      </main>`, "Add place · Öffnungszeit");
-  }
-
-  function renderEdit(id) {
-    const place = places().find((item) => item.id === id);
-    if (!place) {
-      shell(`
-        <main>
-          <a class="back" href="#/">Places</a>
-          <h2 class="place-title">Place not found</h2>
-        </main>`, "Öffnungszeit");
-      return;
-    }
-    shell(`
-      <main>
-        <a class="back" href="${placeHref(place.id)}">Back</a>
-        <h2 class="place-title">Edit hours</h2>
-        <form data-mode="edit" data-id="${esc(place.id)}">
-          ${dayFields(place.hours)}
-          <p class="form-error" role="alert"></p>
-          <div class="dock">
-            <button class="btn btn-primary" type="submit">Save</button>
-          </div>
-        </form>
-      </main>`, "Edit hours · Öffnungszeit");
   }
 
   function renderLoading() {
@@ -342,170 +223,14 @@
   function render() {
     if (!catalog) return;
     const current = route();
-    if (current.name === "add") renderAdd();
-    else if (current.name === "edit") renderEdit(current.id);
-    else if (current.name === "detail") renderDetail(current.id);
+    if (current.name === "detail") renderDetail(current.id);
     else renderHome();
-  }
-
-  function readHours(form) {
-    const hours = {};
-    for (let i = 0; i < HoursPin.WEEKDAYS.length; i += 1) {
-      const day = HoursPin.WEEKDAYS[i];
-      const row = form.querySelector(`[data-day="${day.key}"]`);
-      const closed = row.querySelector("[data-action='toggle-closed']").getAttribute("aria-pressed") === "true";
-      if (closed) {
-        hours[day.key] = "closed";
-        continue;
-      }
-      const open = normTime(row.querySelector("[data-open]").value);
-      const close = normTime(row.querySelector("[data-close]").value);
-      if (!open && !close) {
-        hours[day.key] = "unknown";
-        continue;
-      }
-      if (!open || !close) return { error: `${day.label}: set both times, or mark it closed.` };
-      const openMin = HoursPin.parseMinutes(open);
-      const closeMin = HoursPin.parseMinutes(close);
-      if (openMin == null || closeMin == null || closeMin <= openMin) {
-        return { error: `${day.label}: close must be after open.` };
-      }
-      hours[day.key] = [{ open, close }];
-    }
-    return { hours };
-  }
-
-  function hoursEqual(a, b) {
-    if (!a || !b) return false;
-    return HoursPin.WEEKDAYS.every((day) =>
-      JSON.stringify(a[day.key] ?? "unknown") === JSON.stringify(b[day.key] ?? "unknown"));
-  }
-
-  function newId() {
-    const local = load();
-    const taken = new Set(catalog.places.map((place) => place.id).concat(local.custom.map((place) => place.id)));
-    let id = "";
-    do {
-      id = `p-${Math.random().toString(36).slice(2, 10)}`;
-    } while (taken.has(id) || !/^p-[a-z0-9]+$/.test(id));
-    return id;
-  }
-
-  function onSubmit(event) {
-    event.preventDefault();
-    const form = event.target;
-    const error = form.querySelector(".form-error");
-    const built = readHours(form);
-    if (built.error) {
-      error.textContent = built.error;
-      error.scrollIntoView({ block: "nearest" });
-      return;
-    }
-    const local = load();
-    const mode = form.dataset.mode;
-    if (mode === "add") {
-      const name = form.elements["place-name"].value.trim().replace(/\s+/g, " ");
-      if (!name) {
-        error.textContent = "Add a name.";
-        return;
-      }
-      const id = newId();
-      local.custom.push({ id, name, hours: built.hours });
-      if (!persist(local)) {
-        error.textContent = ui.error;
-        return;
-      }
-      location.hash = `#/place/${encodeURIComponent(id)}`;
-      return;
-    }
-    const id = form.dataset.id;
-    const shipped = catalog.places.find((place) => place.id === id);
-    if (!shipped) {
-      const index = local.custom.findIndex((place) => place.id === id);
-      if (index < 0) return;
-      local.custom[index] = Object.assign({}, local.custom[index], { hours: built.hours });
-    } else if (hoursEqual(built.hours, shipped.hours)) {
-      delete local.overrides[id];
-    } else {
-      local.overrides[id] = { hours: built.hours };
-    }
-    if (!persist(local)) {
-      error.textContent = ui.error;
-      return;
-    }
-    location.hash = `#/place/${encodeURIComponent(id)}`;
   }
 
   function onClick(event) {
     const btn = event.target.closest("[data-action]");
     if (!btn) return;
-    const action = btn.dataset.action;
-    if (action === "toggle-closed") {
-      const row = btn.closest("[data-day]");
-      const closed = btn.getAttribute("aria-pressed") !== "true";
-      btn.setAttribute("aria-pressed", closed ? "true" : "false");
-      row.classList.toggle("is-closed", closed);
-      return;
-    }
-    if (action === "retry") {
-      boot();
-      return;
-    }
-    if (action === "ask-remove") {
-      ui.confirmId = btn.dataset.id;
-      render();
-      return;
-    }
-    if (action === "cancel-remove") {
-      ui.confirmId = null;
-      render();
-      return;
-    }
-    if (action === "confirm-remove") {
-      const id = btn.dataset.id;
-      const local = load();
-      if (catalog.places.some((place) => place.id === id)) {
-        if (!local.removed.includes(id)) local.removed.push(id);
-      } else {
-        local.custom = local.custom.filter((place) => place.id !== id);
-      }
-      if (!persist(local)) {
-        render();
-        return;
-      }
-      ui.confirmId = null;
-      location.hash = "#/";
-      return;
-    }
-    if (action === "clear-override") {
-      const local = load();
-      delete local.overrides[btn.dataset.id];
-      if (!persist(local)) {
-        render();
-        return;
-      }
-      render();
-      return;
-    }
-    if (action === "restore") {
-      const local = load();
-      local.removed = [];
-      if (!persist(local)) {
-        render();
-        return;
-      }
-      render();
-      return;
-    }
-    if (action === "restore-one") {
-      const local = load();
-      local.removed = local.removed.filter((id) => id !== btn.dataset.id);
-      if (!persist(local)) {
-        render();
-        return;
-      }
-      render();
-    }
+    if (btn.dataset.action === "retry") boot();
   }
 
   function tick() {
@@ -541,6 +266,7 @@
   }
 
   async function boot() {
+    clearStoredPins();
     renderLoading();
     try {
       await loadCatalog();
@@ -567,11 +293,7 @@
   }
 
   document.getElementById("app").addEventListener("click", onClick);
-  document.getElementById("app").addEventListener("submit", onSubmit);
-  window.addEventListener("hashchange", () => {
-    ui.confirmId = null;
-    render();
-  });
+  window.addEventListener("hashchange", render);
   document.addEventListener("visibilitychange", onVisible);
   setInterval(tick, 30000);
   registerSW();

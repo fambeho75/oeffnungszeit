@@ -2,7 +2,7 @@
 
 See if a short list of Skövde shops is open right now, and what today’s hours are. Tap a place for the week and any holiday exceptions.
 
-It is a static site: no account, no server, no Google Places API. The shared list lives in `places.json`. Edits you make in the app stay on that phone until you clear them.
+It is a static site: no account, no server, no Google Places API. The shared list lives in `places.json`. Every phone shows those hours.
 
 Open or closed is computed in the browser for **Europe/Stockholm**. A span runs from its open time up to, but not including, its close.
 
@@ -30,7 +30,7 @@ node test/hours.test.js
 2. Open that exact URL in Safari.
 3. Share → **Add to Home Screen**.
 
-The list is stored for that origin. Another phone, another browser, or cleared site data starts from `places.json` again.
+The list is the same on every phone. It comes from `places.json` for this site.
 
 ## GitHub Pages
 
@@ -64,19 +64,15 @@ Coop and ICA have no holiday rows yet. Add them when the official page, or a vis
 
 The footer says **Hours updated** plus the `updated` date from `places.json`.
 
-## Edit hours on the phone
+## On a place
 
-The screen shows the place name, whether it is open, and today’s hours. A place opens onto the week, and holiday exceptions when that place has any. **Edit hours** and **Remove** are the only controls on that screen. Addresses, sources, and map links stay in `places.json` and are not shown.
+The screen shows the place name, whether it is open or closed, the weekly hours, and any upcoming dates that differ. Addresses, sources, and map links stay in `places.json` and are not shown.
 
-- Tap a place → **Edit hours**. Each day is a pair of times, or **Closed**. Leave both times empty if you do not know.
-- **Save**. That phone keeps your hours even after `places.json` changes. Saving the same hours as the file drops the local edit.
-- Holiday exceptions from the file still apply while a weekly edit is in place.
-- **Remove** hides a shipped place on this phone. A place you added yourself is deleted.
-Tap + Add place, type the name and submit the issue; the hours get looked up and added to places.json.
+Tap + Add place, type the name and submit the issue; the hours get looked up and added to `places.json`.
 
 ## Update the shared list
 
-Edit `places.json`, set `updated` to the day you checked, and push. Phones that have not edited that place pick up the new hours on the next online open. `places.json` is requested from the network first and cached for offline use.
+Edit `places.json`, set `updated` to the day you checked, and push. Phones pick up the new hours on the next online open. `places.json` is requested from the network first and cached for offline use.
 
 You do not need to bump the service worker for a JSON-only change. When `index.html`, `styles.css`, `app.js`, or `hours.js` changes, bump `CACHE` in `sw.js` (and the `?v=` on those files) so installed copies drop the old shell.
 
@@ -115,13 +111,7 @@ Week keys are `mon` … `sun`. A day is a list of `{open, close}`, `"closed"`, o
 
 An exception is one `date` or a `start`/`end` range (inclusive, `YYYY-MM-DD`). A single date wins over a range that covers the same day. Use `"hours": "closed"` or a span list.
 
-Local overrides are `localStorage` key `hours-pin-v1`:
-
-```json
-{ "removed": ["lidl"], "overrides": { "ica-maxi": { "name": "ICA Maxi", "address": "…", "hours": {} } }, "custom": [] }
-```
-
-Nothing in that key is synced.
+Older copies stored phone edits in `localStorage` under `hours-pin-v1`. The app ignores that data and clears the key once on load.
 
 ## Files
 
@@ -130,7 +120,7 @@ Nothing in that key is synced.
 - `app.js` — screens
 - `hours.js` — Stockholm open/closed math
 - `places.json` — shared places, weekly hours, exceptions
-- `sw.js` — offline cache (`oeffnungszeit-v8`)
+- `sw.js` — offline cache (`oeffnungszeit-v9`)
 - `manifest.webmanifest` — installable PWA
 - `icon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, maskable PNG icons — original clock mark
 - `test/hours.test.js` — open/closed cases, including holidays and DST

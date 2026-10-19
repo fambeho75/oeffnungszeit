@@ -164,35 +164,6 @@
     return list;
   }
 
-  /* Shipped places stay in file order. Local hours replace the file until cleared.
-     Hidden shipped ids stay out. Custom places follow the shipped list. */
-  function mergePlaces(places, local) {
-    const removed = new Set((local && local.removed) || []);
-    const overrides = (local && local.overrides) || {};
-    const custom = (local && local.custom) || [];
-    const out = [];
-    (places || []).forEach((place) => {
-      if (!place || removed.has(place.id)) return;
-      const override = overrides[place.id];
-      if (!override) {
-        out.push(Object.assign({}, place, { overridden: false, custom: false }));
-        return;
-      }
-      out.push(Object.assign({}, place, {
-        name: override.name != null && override.name !== "" ? override.name : place.name,
-        address: override.address != null ? override.address : place.address,
-        hours: override.hours || place.hours,
-        overridden: true,
-        custom: false,
-      }));
-    });
-    custom.forEach((place) => {
-      if (!place || !place.id) return;
-      out.push(Object.assign({ exceptions: [] }, place, { overridden: false, custom: true }));
-    });
-    return out;
-  }
-
   return {
     TZ,
     WEEKDAYS,
@@ -205,6 +176,5 @@
     statusAt,
     todayLine,
     upcomingExceptions,
-    mergePlaces,
   };
 });
