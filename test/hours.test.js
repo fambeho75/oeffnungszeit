@@ -52,6 +52,14 @@ catalog.places.forEach((place) => {
   });
 });
 
+assert(byId("soptippen").name === "Soptippen (Risängen ÅVC)", "soptippen name");
+assert(byId("soptippen").address === "Komponentvägen, 541 34 Skövde", "soptippen address");
+assert(byId("soptippen").source === "avfallskaraborg.se", "soptippen source");
+assert(byId("ica-maxi").name === "ICA Maxi Skövde" && byId("ica-maxi").source === "ica.se", "ica name and source");
+assert(byId("biltema").address === "Norra Metallvägen 4, 549 37 Skövde", "biltema address");
+assert(byId("biltema").source === "biltema.se", "biltema source");
+assert(byId("coop-vipan") && byId("stora-coop"), "both coops shipped");
+
 const soptippen = byId("soptippen");
 sameSlots(soptippen.hours.mon, "07:00", "19:00");
 sameSlots(soptippen.hours.tue, "07:00", "16:30");
@@ -69,8 +77,11 @@ hours.WEEKDAYS.forEach((day) => {
 
 const lidl = byId("lidl");
 assert(lidl.provisional === true, "lidl provisional");
-hours.WEEKDAYS.slice(0, 5).forEach((day) => sameSlots(lidl.hours[day.key], "08:00", "19:00"));
-assert(lidl.hours.sat === "unknown" && lidl.hours.sun === "unknown", "lidl weekend unknown");
+assert(lidl.name === "Lidl Skövde", "lidl name");
+assert(lidl.address === "Gesällgatan 3, 541 50 Skövde", "lidl address");
+hours.WEEKDAYS.slice(0, 5).forEach((day) => sameSlots(lidl.hours[day.key], "08:00", "21:00"));
+sameSlots(lidl.hours.sat, "08:00", "20:00");
+sameSlots(lidl.hours.sun, "09:00", "20:00");
 
 const biltema = byId("biltema");
 hours.WEEKDAYS.slice(0, 5).forEach((day) => sameSlots(biltema.hours[day.key], "07:00", "20:00"));
@@ -117,10 +128,15 @@ assert(hours.statusAt(soptippen, new Date("2026-10-18T10:00:00Z")) === "closed",
 assert(hours.statusAt(soptippen, new Date("2026-01-19T06:30:00Z")) === "open", "winter CET still open at 07:30");
 assert(hours.statusAt(soptippen, new Date("2026-01-19T05:59:00Z")) === "closed", "winter CET closed at 06:59");
 
-assert(hours.statusAt(lidl, new Date("2026-10-24T08:00:00Z")) === "unknown", "lidl Saturday unknown");
-assert(hours.todayLine(lidl, new Date("2026-10-24T08:00:00Z")) === "Hours unknown", "lidl Saturday line");
-assert(hours.statusAt(lidl, new Date("2026-10-19T16:59:00Z")) === "open", "lidl 18:59");
-assert(hours.statusAt(lidl, new Date("2026-10-19T17:00:00Z")) === "closed", "lidl closes 19:00");
+assert(hours.statusAt(lidl, new Date("2026-10-24T06:00:00Z")) === "open", "lidl Saturday 08:00");
+assert(hours.statusAt(lidl, new Date("2026-10-24T05:59:00Z")) === "closed", "lidl Saturday before 08:00");
+assert(hours.statusAt(lidl, new Date("2026-10-24T17:59:00Z")) === "open", "lidl Saturday 19:59");
+assert(hours.statusAt(lidl, new Date("2026-10-24T18:00:00Z")) === "closed", "lidl Saturday closes 20:00");
+assert(hours.statusAt(lidl, new Date("2026-10-18T06:59:00Z")) === "closed", "lidl Sunday before 09:00");
+assert(hours.statusAt(lidl, new Date("2026-10-18T07:00:00Z")) === "open", "lidl Sunday 09:00");
+assert(hours.todayLine(lidl, new Date("2026-10-18T10:00:00Z")) === "09:00–20:00", "lidl Sunday line");
+assert(hours.statusAt(lidl, new Date("2026-10-19T18:59:00Z")) === "open", "lidl 20:59");
+assert(hours.statusAt(lidl, new Date("2026-10-19T19:00:00Z")) === "closed", "lidl closes 21:00");
 
 assert(hours.statusAt(biltema, new Date("2026-10-18T06:59:00Z")) === "closed", "biltema Sunday before 09:00");
 assert(hours.statusAt(biltema, new Date("2026-10-18T07:00:00Z")) === "open", "biltema Sunday 09:00");

@@ -124,6 +124,14 @@
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
   }
 
+  function checkedLine(place) {
+    const bits = [];
+    if (place.checked) bits.push(`Hours last checked ${formatISO(place.checked)}`);
+    if (place.source) bits.push(place.source);
+    if (!bits.length) return "";
+    return `<p class="checked">${esc(bits.join(" · "))}</p>`;
+  }
+
   function header() {
     return `
       <header>
@@ -247,7 +255,7 @@
   }
 
   function mapsButton(place) {
-    return `<a class="btn" href="${esc(mapsHref(place))}" target="_blank" rel="noopener noreferrer">Maps</a>`;
+    return `<a class="btn" href="${esc(mapsHref(place))}" target="_blank" rel="noopener noreferrer">Öppna i Maps</a>`;
   }
 
   function removeBlock(place) {
@@ -296,6 +304,7 @@
         <a class="back" href="#/">Places</a>
         <h2 class="place-title">${esc(place.name)}</h2>
         ${address}
+        ${checkedLine(place)}
         <div class="status-row">
           <span class="badge badge-${bits.status}" data-status-for="${esc(place.id)}">${statusWord(bits.status)}</span>
           <p class="today-line"><span class="k">Today</span> <span data-today-for="${esc(place.id)}">${esc(bits.line)}</span></p>

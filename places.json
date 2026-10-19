@@ -4,8 +4,8 @@
   "places": [
     {
       "id": "soptippen",
-      "name": "Soptippen",
-      "address": "Risängen, Komponentvägen, Skövde",
+      "name": "Soptippen (Risängen ÅVC)",
+      "address": "Komponentvägen, 541 34 Skövde",
       "website": "https://avfallskaraborg.se/atervinningscentraler/risangen-skovde/",
       "note": "Risängen. Closed on public holidays and most eves. Open as usual on Trettondagsafton and Valborg.",
       "hours": {
@@ -163,7 +163,9 @@
           "hours": "closed",
           "label": "Trettondedag jul"
         }
-      ]
+      ],
+      "source": "avfallskaraborg.se",
+      "checked": "2026-10-19"
     },
     {
       "id": "coop-vipan",
@@ -214,7 +216,10 @@
           }
         ]
       },
-      "exceptions": []
+      "exceptions": [],
+      "source": "Supplied hours",
+      "checked": "2026-10-19",
+      "note": "Vipans Gränd, every day 06:00–23:00. Remove this pin if you only want Stora Coop."
     },
     {
       "id": "stora-coop",
@@ -265,11 +270,14 @@
           }
         ]
       },
-      "exceptions": []
+      "exceptions": [],
+      "source": "Supplied hours",
+      "checked": "2026-10-19",
+      "note": "Nolhaga, every day 07:00–22:00. Remove this pin if you only want Coop Vipans Gränd."
     },
     {
       "id": "ica-maxi",
-      "name": "ICA Maxi",
+      "name": "ICA Maxi Skövde",
       "address": "Köpmannagatan 3, Skövde",
       "website": "https://www.ica.se/butiker/maxi/skovde/",
       "note": "Store hours. The deli counter closes earlier.",
@@ -317,55 +325,69 @@
           }
         ]
       },
-      "exceptions": []
+      "exceptions": [],
+      "source": "ica.se",
+      "checked": "2026-10-19"
     },
     {
       "id": "lidl",
-      "name": "Lidl",
-      "address": "Gesällgatan 3, Skövde",
+      "name": "Lidl Skövde",
+      "address": "Gesällgatan 3, 541 50 Skövde",
       "website": "https://www.lidl.se/s/sv-SE/butiker/skoevde/gesaellgatan-3/",
       "provisional": true,
-      "note": "Provisional. Lidl.se lists weekdays 08:00–19:00. Weekend hours are not on that page yet.",
+      "note": "Provisional, until weekends are confirmed. lidl.se lists Mon–Fri 08:00–19:00 only. These hours use 08:00–21:00 on weekdays, Sat 08:00–20:00, Sun 09:00–20:00 from other listings. Edit if wrong.",
       "hours": {
         "mon": [
           {
             "open": "08:00",
-            "close": "19:00"
+            "close": "21:00"
           }
         ],
         "tue": [
           {
             "open": "08:00",
-            "close": "19:00"
+            "close": "21:00"
           }
         ],
         "wed": [
           {
             "open": "08:00",
-            "close": "19:00"
+            "close": "21:00"
           }
         ],
         "thu": [
           {
             "open": "08:00",
-            "close": "19:00"
+            "close": "21:00"
           }
         ],
         "fri": [
           {
             "open": "08:00",
-            "close": "19:00"
+            "close": "21:00"
           }
         ],
-        "sat": "unknown",
-        "sun": "unknown"
+        "sat": [
+          {
+            "open": "08:00",
+            "close": "20:00"
+          }
+        ],
+        "sun": [
+          {
+            "open": "09:00",
+            "close": "20:00"
+          }
+        ]
       },
-      "exceptions": []
+      "exceptions": [],
+      "source": "listings; lidl.se says Mon–Fri 08:00–19:00",
+      "checked": "2026-10-19"
     },
     {
       "id": "biltema",
-      "name": "Biltema",
-      "address": "Norra Metallvägen 4, Skövde",
+      "name": "Biltema Skövde",
+      "address": "Norra Metallvägen 4, 549 37 Skövde",
       "website": "https://www.biltema.se/varuhus-och-oppettider/skovde/",
       "note": "Ordinary week from Biltema.se. Christmas dates below are that page's published exceptions.",
       "hours": {
@@ -513,7 +535,9 @@
           ],
           "label": "Trettondedag jul"
         }
-      ]
+      ],
+      "source": "biltema.se",
+      "checked": "2026-10-19"
     }
   ]
 }

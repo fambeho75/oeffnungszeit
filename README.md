@@ -49,12 +49,12 @@ Shipped on 19 Oct 2026. Re-check the pages below when seasons change. Weekly hou
 
 | Place | Ordinary hours | Source |
 | --- | --- | --- |
-| Soptippen (Risängen, Komponentvägen) | Mon & Thu 07:00–19:00, Tue/Wed/Fri 07:00–16:30, Sat 08:30–14:00, Sun closed | [Avfall & Återvinning Skaraborg](https://avfallskaraborg.se/atervinningscentraler/risangen-skovde/) |
-| Coop Vipans Gränd | Every day 06:00–23:00 | Hours supplied for this list. [Store page](https://www.coop.se/butiker-erbjudanden/coop/coop-vipans-grand-skovde/) |
-| Stora Coop Nolhaga | Every day 07:00–22:00 | Hours supplied for this list. [Store page](https://www.coop.se/butiker-erbjudanden/stora-coop/stora-coop-nolhaga-skovde/) |
-| ICA Maxi (Köpmannagatan 3) | Every day 07:00–22:00 | [ICA](https://www.ica.se/butiker/maxi/skovde/). This is the store, not the deli counter. |
-| Lidl (Gesällgatan 3) | Mon–Fri 08:00–19:00. Weekend **unknown** | [Lidl](https://www.lidl.se/s/sv-SE/butiker/skoevde/gesaellgatan-3/) lists weekdays only, so Saturday and Sunday stay unknown until that page (or an edit) says otherwise. |
-| Biltema (Norra Metallvägen 4) | Mon–Fri 07:00–20:00, Sat–Sun 09:00–18:00 | [Biltema](https://www.biltema.se/varuhus-och-oppettider/skovde/) |
+| Soptippen (Risängen ÅVC), Komponentvägen, 541 34 Skövde | Mon & Thu 07:00–19:00, Tue/Wed/Fri 07:00–16:30, Sat 08:30–14:00, Sun closed | [avfallskaraborg.se](https://avfallskaraborg.se/atervinningscentraler/risangen-skovde/) |
+| Coop Vipans Gränd | Every day 06:00–23:00 | Supplied hours. [Store page](https://www.coop.se/butiker-erbjudanden/coop/coop-vipans-grand-skovde/) |
+| Stora Coop Nolhaga | Every day 07:00–22:00 | Supplied hours. [Store page](https://www.coop.se/butiker-erbjudanden/stora-coop/stora-coop-nolhaga-skovde/) |
+| ICA Maxi Skövde, Köpmannagatan 3 | Every day 07:00–22:00 | [ica.se](https://www.ica.se/butiker/maxi/skovde/). Store hours, not the deli counter. |
+| Lidl Skövde, Gesällgatan 3, 541 50 Skövde | Mon–Fri 08:00–21:00, Sat 08:00–20:00, Sun 09:00–20:00 | Provisional. [lidl.se](https://www.lidl.se/s/sv-SE/butiker/skoevde/gesaellgatan-3/) lists Mon–Fri 08:00–19:00 only. Weekends, and the later weekday close, are from other listings. |
+| Biltema Skövde, Norra Metallvägen 4, 549 37 Skövde | Mon–Fri 07:00–20:00, Sat–Sun 09:00–18:00 | [biltema.se](https://www.biltema.se/varuhus-och-oppettider/skovde/) |
 
 Soptippen’s page says the centre is closed on public holidays and most eves, and open as usual on Trettondagsafton and Valborg. Those dates are written out in `exceptions` through 6 Jan 2028. Biltema’s Christmas hours from the same page are dated for the 2026 and 2027 seasons (Julafton closed, Juldagen and Annandag jul 09:00–18:00, Nyårsafton 09:00–15:00, Nyårsdagen closed, Trettondedag jul 09:00–18:00).
 
@@ -70,7 +70,7 @@ The footer says **Hours updated** plus the `updated` date from `places.json`.
 - Holiday exceptions from the file still apply while a weekly edit is in place. The editor does not change exceptions.
 - **Remove** hides a shipped place on this phone. **Show hidden** on the home screen brings it back. A place you added yourself is deleted.
 - **Add place** asks for a name, an optional address, and the week. It is stored only on this phone.
-- **Maps** opens a Google Maps search for the name and address (no API key).
+- **Öppna i Maps** opens a Google Maps search for the place name and Skövde. No API key.
 - **Check on website** opens the official hours page when `website` is set.
 
 ## Update the shared list
@@ -91,6 +91,8 @@ You do not need to bump the service worker for a JSON-only change. When `index.h
       "name": "Soptippen",
       "address": "Risängen, Komponentvägen, Skövde",
       "website": "https://example.com/hours",
+      "source": "avfallskaraborg.se",
+      "checked": "2026-10-19",
       "provisional": false,
       "note": "Shown on the detail screen.",
       "hours": {

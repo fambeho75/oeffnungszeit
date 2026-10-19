@@ -1,13 +1,13 @@
 /* Hours Pin — offline cache.
    Bump CACHE when HTML, CSS, or JS changes so old shells are dropped.
    places.json is network-first, so a hours-only update does not need a bump. */
-const CACHE = "hours-pin-v1";
+const CACHE = "hours-pin-v2";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=1",
+  "./styles.css?v=2",
   "./hours.js?v=1",
-  "./app.js?v=1",
+  "./app.js?v=2",
   "./places.json",
   "./manifest.webmanifest",
   "./icon.svg",
