@@ -37,10 +37,10 @@ function partsAt(iso, ymd, key, hhmm) {
 assert(hours.TZ === "Europe/Stockholm", "timezone constant");
 assert(catalog.timezone === "Europe/Stockholm", "catalog timezone");
 assert(catalog.updated === "2026-10-19", "catalog updated date");
-assert(catalog.places.length === 6, "six shipped places");
+assert(catalog.places.length === 7, "seven shipped places");
 assert(
   JSON.stringify(catalog.places.map((place) => place.id)) ===
-    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "biltema"]),
+    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema"]),
   "place order"
 );
 
@@ -52,7 +52,8 @@ catalog.places.forEach((place) => {
   });
 });
 
-assert(byId("soptippen").name === "Soptippen (Risängen ÅVC)", "soptippen name");
+assert(byId("soptippen").id === "soptippen", "soptippen id stays stable");
+assert(byId("soptippen").name === "Risängen", "soptippen name");
 assert(byId("soptippen").address === "Komponentvägen, 541 34 Skövde", "soptippen address");
 assert(byId("soptippen").source === "avfallskaraborg.se", "soptippen source");
 assert(byId("ica-maxi").name === "ICA Maxi Skövde" && byId("ica-maxi").source === "ica.se", "ica name and source");
@@ -83,6 +84,23 @@ hours.WEEKDAYS.slice(0, 5).forEach((day) => sameSlots(lidl.hours[day.key], "08:0
 sameSlots(lidl.hours.sat, "08:00", "20:00");
 sameSlots(lidl.hours.sun, "09:00", "20:00");
 
+const willys = byId("willys");
+assert(willys.name === "Willys Skövde", "willys name");
+assert(willys.address === "Jonstorpsgatan 25, 541 66 Skövde", "willys address");
+assert(willys.source === "willys.se", "willys source");
+hours.WEEKDAYS.forEach((day) => sameSlots(willys.hours[day.key], "08:00", "21:00"));
+assert(hours.statusAt(willys, new Date("2026-10-19T05:59:00Z")) === "closed", "willys before 08:00");
+assert(hours.statusAt(willys, new Date("2026-10-19T06:00:00Z")) === "open", "willys opens 08:00");
+assert(hours.statusAt(willys, new Date("2026-10-19T18:59:00Z")) === "open", "willys 20:59");
+assert(hours.statusAt(willys, new Date("2026-10-19T19:00:00Z")) === "closed", "willys closes 21:00");
+assert(hours.statusAt(willys, new Date("2026-12-24T12:59:00Z")) === "open", "willys Julafton 13:59");
+assert(hours.statusAt(willys, new Date("2026-12-24T13:00:00Z")) === "closed", "willys Julafton closes 14:00");
+assert(hours.statusAt(willys, new Date("2026-12-31T17:59:00Z")) === "open", "willys Nyårsafton 18:59");
+assert(hours.statusAt(willys, new Date("2026-12-31T18:00:00Z")) === "closed", "willys Nyårsafton closes 19:00");
+assert(hours.statusAt(willys, new Date("2027-01-01T07:59:00Z")) === "closed", "willys Nyårsdagen before 09:00");
+assert(hours.statusAt(willys, new Date("2027-01-01T08:00:00Z")) === "open", "willys Nyårsdagen 09:00");
+assert(hours.resolveDay(willys, new Date("2026-10-31T08:00:00Z")).label === "Alla helgons dag", "willys holiday label");
+
 const biltema = byId("biltema");
 hours.WEEKDAYS.slice(0, 5).forEach((day) => sameSlots(biltema.hours[day.key], "07:00", "20:00"));
 sameSlots(biltema.hours.sat, "09:00", "18:00");
@@ -102,7 +120,7 @@ partsAt("2026-01-19T05:59:00Z", "2026-01-19", "mon", "06:59");
 partsAt("2026-01-19T06:30:00Z", "2026-01-19", "mon", "07:30");
 
 const mondayMorning = new Date("2026-10-19T08:00:00Z");
-["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "biltema"].forEach((id) => {
+["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema"].forEach((id) => {
   assert(hours.statusAt(byId(id), mondayMorning) === "open", `${id} open Monday 10:00`);
 });
 assert(hours.todayLine(soptippen, mondayMorning) === "07:00–19:00", "soptippen today line");
@@ -189,7 +207,7 @@ const merged = hours.mergePlaces(catalog.places, {
   overrides: { soptippen: { name: "Tippen", address: "", hours: allDay } },
   custom: [{ id: "p-test", name: "Kiosk", address: "Skövde", hours: allDay }],
 });
-assert(merged.length === 6, "hide one, add one, still six");
+assert(merged.length === 7, "hide one, add one, still seven");
 assert(!merged.some((place) => place.id === "lidl"), "lidl hidden");
 assert(merged[merged.length - 1].id === "p-test" && merged[merged.length - 1].custom, "custom place last");
 const edited = merged.find((place) => place.id === "soptippen");
