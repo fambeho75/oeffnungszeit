@@ -37,10 +37,10 @@ function partsAt(iso, ymd, key, hhmm) {
 assert(hours.TZ === "Europe/Stockholm", "timezone constant");
 assert(catalog.timezone === "Europe/Stockholm", "catalog timezone");
 assert(catalog.updated === "2026-10-19", "catalog updated date");
-assert(catalog.places.length === 7, "seven shipped places");
+assert(catalog.places.length === 8, "eight shipped places");
 assert(
   JSON.stringify(catalog.places.map((place) => place.id)) ===
-    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema"]),
+    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank"]),
   "place order"
 );
 
@@ -105,6 +105,52 @@ const biltema = byId("biltema");
 hours.WEEKDAYS.slice(0, 5).forEach((day) => sameSlots(biltema.hours[day.key], "07:00", "20:00"));
 sameSlots(biltema.hours.sat, "09:00", "18:00");
 sameSlots(biltema.hours.sun, "09:00", "18:00");
+
+const swedbank = byId("swedbank");
+assert(swedbank.name === "Swedbank Skövde", "swedbank name");
+assert(swedbank.address === "Storgatan 15, 541 30 Skövde", "swedbank address");
+assert(swedbank.source === "swedbank.se", "swedbank source");
+assert(swedbank.provisional !== true, "swedbank hours are from the branch record");
+["mon", "tue", "wed"].forEach((key) => sameSlots(swedbank.hours[key], "13:00", "16:00"));
+sameSlots(swedbank.hours.thu, "13:00", "17:00");
+sameSlots(swedbank.hours.fri, "13:00", "15:00");
+assert(swedbank.hours.sat === "closed" && swedbank.hours.sun === "closed", "swedbank weekend");
+assert(hours.statusAt(swedbank, new Date("2026-10-19T10:59:00Z")) === "closed", "swedbank before 13:00");
+assert(hours.statusAt(swedbank, new Date("2026-10-19T11:00:00Z")) === "open", "swedbank opens 13:00");
+assert(hours.statusAt(swedbank, new Date("2026-10-19T13:59:00Z")) === "open", "swedbank Monday 15:59");
+assert(hours.statusAt(swedbank, new Date("2026-10-19T14:00:00Z")) === "closed", "swedbank Monday closes 16:00");
+assert(hours.statusAt(swedbank, new Date("2026-10-22T14:59:00Z")) === "open", "swedbank Thursday 16:59");
+assert(hours.statusAt(swedbank, new Date("2026-10-22T15:00:00Z")) === "closed", "swedbank Thursday closes 17:00");
+assert(hours.statusAt(swedbank, new Date("2026-10-23T12:59:00Z")) === "open", "swedbank Friday 14:59");
+assert(hours.statusAt(swedbank, new Date("2026-10-23T13:00:00Z")) === "closed", "swedbank Friday closes 15:00");
+assert(hours.statusAt(swedbank, new Date("2026-10-24T10:00:00Z")) === "closed", "swedbank Saturday");
+assert(hours.todayLine(swedbank, new Date("2026-10-19T11:00:00Z")) === "13:00–16:00", "swedbank today line");
+assert(hours.statusAt(swedbank, new Date("2026-10-30T11:00:00Z")) === "closed", "swedbank closed the day before Alla helgons dag");
+assert(hours.resolveDay(swedbank, new Date("2026-10-30T11:00:00Z")).label === "Dag före alla helgons dag", "swedbank eve label");
+assert(hours.statusAt(swedbank, new Date("2027-01-05T12:00:00Z")) === "closed", "swedbank Trettondagsafton");
+assert(hours.statusAt(swedbank, new Date("2027-05-05T12:00:00Z")) === "closed", "swedbank day before Kristi himmelsfärd");
+assert(hours.statusAt(swedbank, new Date("2027-06-25T12:00:00Z")) === "closed", "swedbank Midsommarafton");
+const swedbankDates = new Set(swedbank.exceptions.map((ex) => ex.date));
+["2026-10-30", "2026-10-31", "2026-12-24", "2026-12-31", "2027-01-01", "2027-01-05", "2027-01-06", "2027-03-25", "2027-03-28", "2027-04-30", "2027-05-01", "2027-05-05", "2027-05-06", "2027-06-06", "2027-06-25", "2027-06-26", "2027-11-05", "2027-11-06", "2027-12-24", "2027-12-31"].forEach((date) => {
+  assert(swedbankDates.has(date), `swedbank closed ${date}`);
+});
+assert(!swedbankDates.has("2026-01-01"), "past Nyårsdagen is not repeated");
+assert(swedbank.exceptions.every((ex) => ex.hours === "closed"), "swedbank exceptions are closed");
+
+const splitDay = {
+  hours: {
+    mon: [{ open: "10:00", close: "15:00" }, { open: "15:30", close: "18:00" }],
+    tue: "closed", wed: "closed", thu: "closed", fri: "closed", sat: "closed", sun: "closed",
+  },
+};
+assert(hours.todayLine(splitDay, new Date("2026-10-19T08:00:00Z")) === "10:00–15:00, 15:30–18:00", "split day line");
+assert(hours.formatSlots(splitDay.hours.mon) === "10:00–15:00, 15:30–18:00", "split slots");
+assert(hours.statusAt(splitDay, new Date("2026-10-19T12:59:00Z")) === "open", "split day before the break");
+assert(hours.statusAt(splitDay, new Date("2026-10-19T13:00:00Z")) === "closed", "split day at 15:00");
+assert(hours.statusAt(splitDay, new Date("2026-10-19T13:15:00Z")) === "closed", "split day during the break");
+assert(hours.statusAt(splitDay, new Date("2026-10-19T13:30:00Z")) === "open", "split day reopens at 15:30");
+assert(hours.statusAt(splitDay, new Date("2026-10-19T15:59:00Z")) === "open", "split day 17:59");
+assert(hours.statusAt(splitDay, new Date("2026-10-19T16:00:00Z")) === "closed", "split day closes 18:00");
 
 const closedDates = new Set(soptippen.exceptions.map((ex) => ex.date));
 ["2026-10-31", "2026-12-24", "2026-12-25", "2026-12-26", "2026-12-31", "2027-01-01", "2027-01-06", "2027-03-26", "2027-05-01", "2027-06-25", "2027-12-24", "2028-01-06"].forEach((date) => {
@@ -207,7 +253,7 @@ const merged = hours.mergePlaces(catalog.places, {
   overrides: { soptippen: { name: "Tippen", address: "", hours: allDay } },
   custom: [{ id: "p-test", name: "Kiosk", address: "Skövde", hours: allDay }],
 });
-assert(merged.length === 7, "hide one, add one, still seven");
+assert(merged.length === 8, "hide one, add one, still eight");
 assert(!merged.some((place) => place.id === "lidl"), "lidl hidden");
 assert(merged[merged.length - 1].id === "p-test" && merged[merged.length - 1].custom, "custom place last");
 const edited = merged.find((place) => place.id === "soptippen");

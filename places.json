@@ -673,6 +673,186 @@
       ],
       "source": "biltema.se",
       "checked": "2026-10-19"
+    },
+    {
+      "id": "swedbank",
+      "name": "Swedbank Skövde",
+      "address": "Storgatan 15, 541 30 Skövde",
+      "website": "https://www.swedbank.se/om-oss/kontakta-oss/kontor/skovde.html",
+      "note": "Weekly hours are the Skövde branch record on that page (0000299041KONTOR): Mon–Wed 13:00–16:00, Thu 13:00–17:00, Fri 13:00–15:00, weekends closed. The page lists the named holidays as Stängt. That same record gives the cash desk as Mariestadsvägen 3c, 541 28.",
+      "hours": {
+        "mon": [
+          {
+            "open": "13:00",
+            "close": "16:00"
+          }
+        ],
+        "tue": [
+          {
+            "open": "13:00",
+            "close": "16:00"
+          }
+        ],
+        "wed": [
+          {
+            "open": "13:00",
+            "close": "16:00"
+          }
+        ],
+        "thu": [
+          {
+            "open": "13:00",
+            "close": "17:00"
+          }
+        ],
+        "fri": [
+          {
+            "open": "13:00",
+            "close": "15:00"
+          }
+        ],
+        "sat": "closed",
+        "sun": "closed"
+      },
+      "exceptions": [
+        {
+          "date": "2026-10-30",
+          "hours": "closed",
+          "label": "Dag före alla helgons dag"
+        },
+        {
+          "date": "2026-10-31",
+          "hours": "closed",
+          "label": "Alla helgons dag"
+        },
+        {
+          "date": "2026-12-24",
+          "hours": "closed",
+          "label": "Julafton"
+        },
+        {
+          "date": "2026-12-25",
+          "hours": "closed",
+          "label": "Juldagen"
+        },
+        {
+          "date": "2026-12-26",
+          "hours": "closed",
+          "label": "Annandag jul"
+        },
+        {
+          "date": "2026-12-31",
+          "hours": "closed",
+          "label": "Nyårsafton"
+        },
+        {
+          "date": "2027-01-01",
+          "hours": "closed",
+          "label": "Nyårsdagen"
+        },
+        {
+          "date": "2027-01-05",
+          "hours": "closed",
+          "label": "Trettondagsafton"
+        },
+        {
+          "date": "2027-01-06",
+          "hours": "closed",
+          "label": "Trettondedag jul"
+        },
+        {
+          "date": "2027-03-25",
+          "hours": "closed",
+          "label": "Skärtorsdagen"
+        },
+        {
+          "date": "2027-03-26",
+          "hours": "closed",
+          "label": "Långfredagen"
+        },
+        {
+          "date": "2027-03-27",
+          "hours": "closed",
+          "label": "Påskafton"
+        },
+        {
+          "date": "2027-03-28",
+          "hours": "closed",
+          "label": "Påskdagen"
+        },
+        {
+          "date": "2027-03-29",
+          "hours": "closed",
+          "label": "Annandag påsk"
+        },
+        {
+          "date": "2027-04-30",
+          "hours": "closed",
+          "label": "Valborgsmässoafton"
+        },
+        {
+          "date": "2027-05-01",
+          "hours": "closed",
+          "label": "1 maj"
+        },
+        {
+          "date": "2027-05-05",
+          "hours": "closed",
+          "label": "Dag före Kristi himmelsfärdsdag"
+        },
+        {
+          "date": "2027-05-06",
+          "hours": "closed",
+          "label": "Kristi himmelsfärdsdag"
+        },
+        {
+          "date": "2027-06-06",
+          "hours": "closed",
+          "label": "Nationaldagen"
+        },
+        {
+          "date": "2027-06-25",
+          "hours": "closed",
+          "label": "Midsommarafton"
+        },
+        {
+          "date": "2027-06-26",
+          "hours": "closed",
+          "label": "Midsommardagen"
+        },
+        {
+          "date": "2027-11-05",
+          "hours": "closed",
+          "label": "Dag före alla helgons dag"
+        },
+        {
+          "date": "2027-11-06",
+          "hours": "closed",
+          "label": "Alla helgons dag"
+        },
+        {
+          "date": "2027-12-24",
+          "hours": "closed",
+          "label": "Julafton"
+        },
+        {
+          "date": "2027-12-25",
+          "hours": "closed",
+          "label": "Juldagen"
+        },
+        {
+          "date": "2027-12-26",
+          "hours": "closed",
+          "label": "Annandag jul"
+        },
+        {
+          "date": "2027-12-31",
+          "hours": "closed",
+          "label": "Nyårsafton"
+        }
+      ],
+      "source": "swedbank.se",
+      "checked": "2026-10-19"
     }
   ]
 }
