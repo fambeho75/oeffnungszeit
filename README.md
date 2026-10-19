@@ -64,14 +64,13 @@ The footer says **Hours updated** plus the `updated` date from `places.json`.
 
 ## Edit hours on the phone
 
+The screen shows the place name, whether it is open, and today’s hours. A place opens onto the week, and holiday exceptions when that place has any. **Edit hours** and **Remove** are the only controls on that screen. Addresses, sources, and map links stay in `places.json` and are not shown.
+
 - Tap a place → **Edit hours**. Each day is a pair of times, or **Closed**. Leave both times empty if you do not know.
-- **Save**. The row is marked **Edited**. That phone keeps your hours even after `places.json` changes.
-- **Use shipped hours** throws away the edit and follows the file again, including its exceptions.
-- Holiday exceptions from the file still apply while a weekly edit is in place. The editor does not change exceptions.
-- **Remove** hides a shipped place on this phone. **Show hidden** on the home screen brings it back. A place you added yourself is deleted.
-- **Add place** asks for a name, an optional address, and the week. It is stored only on this phone.
-- **Öppna i Maps** opens a Google Maps search for the place name and Skövde. No API key.
-- **Check on website** opens the official hours page when `website` is set.
+- **Save**. That phone keeps your hours even after `places.json` changes. Saving the same hours as the file drops the local edit.
+- Holiday exceptions from the file still apply while a weekly edit is in place.
+- **Remove** hides a shipped place on this phone. A place you added yourself is deleted.
+- **Add place** asks for a name and the week. It is stored only on this phone.
 
 ## Update the shared list
 

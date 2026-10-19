@@ -107,31 +107,6 @@
     return { status: HoursPin.statusAt(place, date), line };
   }
 
-  function safeUrl(value) {
-    try {
-      const url = new URL(value);
-      if (url.protocol === "https:" || url.protocol === "http:") return url.href;
-    } catch (err) {
-      return "";
-    }
-    return "";
-  }
-
-  function mapsHref(place) {
-    let query = place.name || "";
-    if (place.address) query += `, ${place.address}`;
-    if (!/skövde/i.test(query)) query += " Skövde";
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-  }
-
-  function checkedLine(place) {
-    const bits = [];
-    if (place.checked) bits.push(`Hours last checked ${formatISO(place.checked)}`);
-    if (place.source) bits.push(place.source);
-    if (!bits.length) return "";
-    return `<p class="checked">${esc(bits.join(" · "))}</p>`;
-  }
-
   function header() {
     return `
       <header>
@@ -149,52 +124,31 @@
     document.getElementById("app").innerHTML = `${header()}${err}${body}`;
   }
 
-  function tags(place) {
-    if (place.overridden) return `<span class="tag">Edited</span>`;
-    if (place.provisional) return `<span class="tag">Provisional</span>`;
-    return "";
-  }
-
   function placeRow(place, now) {
     const bits = todayBits(place, now);
-    const address = place.address ? `<p class="place-address">${esc(place.address)}</p>` : "";
     return `
       <a class="place" href="${placeHref(place.id)}">
-        <span class="place-main">
-          <span class="name-line"><span class="place-name">${esc(place.name)}</span>${tags(place)}</span>
-          ${address}
-        </span>
+        <span class="place-name">${esc(place.name)}</span>
         <span class="badge badge-${bits.status}" data-status-for="${esc(place.id)}">${statusWord(bits.status)}</span>
         <p class="place-today"><span class="k">Today</span> <span data-today-for="${esc(place.id)}">${esc(bits.line)}</span></p>
       </a>`;
   }
 
-  function footerMeta(hideRestore) {
-    const removed = hideRestore ? 0 : load().removed.length;
-    const updated = catalog.updated ? `Hours updated ${formatISO(catalog.updated)}` : "";
-    return `
-      <footer class="meta">
-        ${updated ? `<p class="updated">${esc(updated)}</p>` : ""}
-        ${removed ? `<button type="button" class="linkish" data-action="restore">Show hidden (${removed})</button>` : ""}
-      </footer>`;
-  }
-
   function renderHome() {
     const now = new Date();
     const list = places();
-    const removed = load().removed.length;
     const body = list.length
       ? list.map((place) => placeRow(place, now)).join("")
       : `
         <div class="card">
           <p class="empty-title">No places yet.</p>
           <p class="hint">Add a shop to see if it is open.</p>
-          ${removed ? `<button type="button" class="btn" data-action="restore">Show hidden (${removed})</button>` : ""}
         </div>`;
+    const updated = catalog.updated ? `<p class="updated">Hours updated ${esc(formatISO(catalog.updated))}</p>` : "";
     shell(`
       <main>
         ${body}
-        ${footerMeta(list.length === 0)}
+        ${updated}
         <div class="dock"><a class="btn btn-primary" href="#/add">Add place</a></div>
       </main>`, "Hours Pin");
   }
@@ -222,7 +176,7 @@
           <span class="hours-line">${esc(hoursLine(resolved.kind, resolved.slots))}${holiday}</span>
         </div>`;
     }).join("");
-    return `<h2 class="section">Hours</h2><div class="week">${rows}</div>`;
+    return `<div class="week">${rows}</div>`;
   }
 
   function exceptionRow(ex, today) {
@@ -248,79 +202,38 @@
     return `<h2 class="section">Exceptions</h2><div class="week">${soon}</div>${rest}`;
   }
 
-  function websiteButton(place) {
-    const url = safeUrl(place.website);
-    if (!url) return "";
-    return `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Check on website</a>`;
-  }
-
-  function mapsButton(place) {
-    return `<a class="btn" href="${esc(mapsHref(place))}" target="_blank" rel="noopener noreferrer">Öppna i Maps</a>`;
-  }
-
   function removeBlock(place) {
     if (ui.confirmId !== place.id) {
-      return `<button type="button" class="btn btn-danger" data-action="ask-remove" data-id="${esc(place.id)}">Remove</button>`;
+      return `<button type="button" class="quiet quiet-danger" data-action="ask-remove" data-id="${esc(place.id)}">Remove</button>`;
     }
-    const hint = place.custom
-      ? "It is only stored on this phone."
-      : "You can show the shared list again from home.";
-    const question = place.custom ? "Remove this place from this phone?" : "Hide this place on this phone?";
     return `
-      <div class="confirm">
-        <p>${question}</p>
-        <p class="hint">${hint}</p>
-        <div class="stack">
-          <button type="button" class="btn btn-danger" data-action="confirm-remove" data-id="${esc(place.id)}">Remove</button>
-          <button type="button" class="btn" data-action="cancel-remove">Cancel</button>
-        </div>
-      </div>`;
+      <span class="confirm-inline">
+        <button type="button" class="quiet quiet-danger" data-action="confirm-remove" data-id="${esc(place.id)}">Remove</button>
+        <button type="button" class="quiet" data-action="cancel-remove">Cancel</button>
+      </span>`;
   }
 
   function renderDetail(id) {
     const place = places().find((item) => item.id === id);
     if (!place) {
-      const shipped = (catalog.places || []).find((item) => item.id === id);
-      const hidden = shipped && load().removed.includes(id);
       shell(`
         <main>
           <a class="back" href="#/">Places</a>
-          <h2 class="place-title">${hidden ? "Hidden on this phone" : "Place not found"}</h2>
-          <p class="hint">${hidden ? `${esc(shipped.name)} is still in the shared list.` : "It is not in the shared list or on this phone."}</p>
-          ${hidden ? `<button type="button" class="btn" data-action="restore-one" data-id="${esc(id)}">Show this place</button>` : ""}
+          <h2 class="place-title">Place not found</h2>
         </main>`, "Hours Pin");
       return;
     }
     const now = new Date();
-    const bits = todayBits(place, now);
-    const address = place.address ? `<p class="address">${esc(place.address)}</p>` : "";
-    const banner = place.overridden ? `<p class="banner">Edited on this phone.</p>` : "";
-    const note = place.note ? `<p class="note">${esc(place.note)}</p>` : "";
-    const clear = place.overridden && !place.custom
-      ? `<button type="button" class="btn" data-action="clear-override" data-id="${esc(place.id)}">Use shipped hours</button>`
-      : "";
     shell(`
       <main>
         <a class="back" href="#/">Places</a>
         <h2 class="place-title">${esc(place.name)}</h2>
-        ${address}
-        ${checkedLine(place)}
-        <div class="status-row">
-          <span class="badge badge-${bits.status}" data-status-for="${esc(place.id)}">${statusWord(bits.status)}</span>
-          <p class="today-line"><span class="k">Today</span> <span data-today-for="${esc(place.id)}">${esc(bits.line)}</span></p>
-        </div>
-        ${banner}
-        ${note}
         ${weekSection(place, now)}
         ${exceptionSection(place, now)}
-        <div class="stack">
-          <a class="btn btn-primary" href="${placeHref(place.id)}/edit">Edit hours</a>
-          ${clear}
-          ${websiteButton(place)}
-          ${mapsButton(place)}
+        <div class="tools">
+          <a class="quiet" href="${placeHref(place.id)}/edit">Edit hours</a>
           ${removeBlock(place)}
         </div>
-        ${footerMeta()}
       </main>`, `${place.name} · Hours Pin`);
   }
 
@@ -350,12 +263,10 @@
     }).join("");
   }
 
-  function nameFields(name, address) {
+  function nameField(name) {
     return `
       <label for="place-name">Name</label>
-      <input id="place-name" name="place-name" type="text" maxlength="80" autocomplete="off" autocapitalize="words" required value="${esc(name)}">
-      <label for="place-address">Address</label>
-      <input id="place-address" name="place-address" type="text" maxlength="120" autocomplete="off" placeholder="Optional" value="${esc(address)}">`;
+      <input id="place-name" name="place-name" type="text" maxlength="80" autocomplete="off" autocapitalize="words" required value="${esc(name)}">`;
   }
 
   function defaultHours() {
@@ -374,14 +285,12 @@
         <a class="back" href="#/">Places</a>
         <h2 class="place-title">Add place</h2>
         <form data-mode="add">
-          ${nameFields("", "")}
+          ${nameField("")}
           <p class="label">Hours</p>
           ${dayFields(defaultHours())}
-          <p class="hint">Leave a day blank if you do not know the hours.</p>
           <p class="form-error" role="alert"></p>
           <div class="dock">
             <button class="btn btn-primary" type="submit">Pin place</button>
-            <p class="hint">Saved only on this phone.</p>
           </div>
         </form>
       </main>`, "Add place · Hours Pin");
@@ -397,19 +306,12 @@
         </main>`, "Hours Pin");
       return;
     }
-    const keep = !place.custom && place.exceptions && place.exceptions.length
-      ? `<p class="hint">Holiday exceptions from the shared list still apply.</p>`
-      : "";
     shell(`
       <main>
         <a class="back" href="${placeHref(place.id)}">Back</a>
         <h2 class="place-title">Edit hours</h2>
         <form data-mode="edit" data-id="${esc(place.id)}">
-          ${nameFields(place.name, place.address || "")}
-          <p class="label">Hours</p>
           ${dayFields(place.hours)}
-          ${keep}
-          <p class="hint">Leave a day blank if you do not know the hours.</p>
           <p class="form-error" role="alert"></p>
           <div class="dock">
             <button class="btn btn-primary" type="submit">Save</button>
@@ -489,12 +391,6 @@
     event.preventDefault();
     const form = event.target;
     const error = form.querySelector(".form-error");
-    const name = form.elements["place-name"].value.trim().replace(/\s+/g, " ");
-    const address = form.elements["place-address"].value.trim().replace(/\s+/g, " ");
-    if (!name) {
-      error.textContent = "Add a name.";
-      return;
-    }
     const built = readHours(form);
     if (built.error) {
       error.textContent = built.error;
@@ -504,8 +400,13 @@
     const local = load();
     const mode = form.dataset.mode;
     if (mode === "add") {
+      const name = form.elements["place-name"].value.trim().replace(/\s+/g, " ");
+      if (!name) {
+        error.textContent = "Add a name.";
+        return;
+      }
       const id = newId();
-      local.custom.push({ id, name, address, hours: built.hours });
+      local.custom.push({ id, name, hours: built.hours });
       if (!persist(local)) {
         error.textContent = ui.error;
         return;
@@ -518,11 +419,11 @@
     if (!shipped) {
       const index = local.custom.findIndex((place) => place.id === id);
       if (index < 0) return;
-      local.custom[index] = Object.assign({}, local.custom[index], { name, address, hours: built.hours });
-    } else if (name === shipped.name && address === (shipped.address || "") && hoursEqual(built.hours, shipped.hours)) {
+      local.custom[index] = Object.assign({}, local.custom[index], { hours: built.hours });
+    } else if (hoursEqual(built.hours, shipped.hours)) {
       delete local.overrides[id];
     } else {
-      local.overrides[id] = { name, address, hours: built.hours };
+      local.overrides[id] = { hours: built.hours };
     }
     if (!persist(local)) {
       error.textContent = ui.error;

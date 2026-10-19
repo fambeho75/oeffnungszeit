@@ -424,6 +424,36 @@ input:focus { border-color: var(--accent); }
   margin-top: 18px;
 }
 
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 16px;
+}
+
+.quiet {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--faint);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.quiet-danger { color: var(--danger); }
+
+.confirm-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .btn {
   display: flex;
   align-items: center;
