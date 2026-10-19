@@ -5,6 +5,7 @@
 
   const KEY = "hours-pin-v1";
   const GITHUB_REPO = "fambeho75/hours-pin";
+  const GITHUB_ASSIGNEE = "fambeho75";
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const LOGO = `<svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="10" fill="none" stroke="#111" stroke-width="2.5"/><path d="M16 16V8M16 16H23" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="square"/></svg>`;
 
@@ -147,7 +148,7 @@
         </div>`;
     const updated = catalog.updated ? `<p class="updated">Hours updated ${esc(formatISO(catalog.updated))}</p>` : "";
     const addBody = "Place name:\nTown: Skövde\nNotes (optional):\n";
-    const addHref = `https://github.com/${GITHUB_REPO}/issues/new?title=${encodeURIComponent("Add place: ")}&labels=add-place&body=${encodeURIComponent(addBody)}`;
+    const addHref = `https://github.com/${GITHUB_REPO}/issues/new?title=${encodeURIComponent("Add place: ")}&labels=add-place&body=${encodeURIComponent(addBody)}&assignees=${encodeURIComponent(GITHUB_ASSIGNEE)}`;
     shell(`
       <main>
         ${body}
