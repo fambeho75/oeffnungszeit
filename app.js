@@ -1,10 +1,10 @@
-/* Hours Pin UI. Shared hours come from places.json.
+/* Öffnungszeit UI. Shared hours come from places.json.
    Edits on this phone live in localStorage under hours-pin-v1 and win until cleared. */
 (function () {
   "use strict";
 
   const KEY = "hours-pin-v1";
-  const GITHUB_REPO = "fambeho75/hours-pin";
+  const GITHUB_REPO = "fambeho75/oeffnungszeit";
   const GITHUB_ASSIGNEE = "fambeho75";
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const LOGO = `<svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="10" fill="none" stroke="#111" stroke-width="2.5"/><path d="M16 16V8M16 16H23" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="square"/></svg>`;
@@ -114,7 +114,7 @@
       <header>
         <div class="logo" aria-hidden="true">${LOGO}</div>
         <div>
-          <h1 class="brand">Hours Pin</h1>
+          <h1 class="brand">Öffnungszeit</h1>
           <p class="tagline" id="clock">${esc(clockText(new Date()))}</p>
         </div>
       </header>`;
@@ -154,7 +154,7 @@
         ${body}
         <p class="add-row"><a class="add-place" href="${esc(addHref)}" target="_blank" rel="noopener noreferrer">+ Add place</a></p>
         ${updated}
-      </main>`, "Hours Pin");
+      </main>`, "Öffnungszeit");
   }
 
   function hoursLine(kind, slots) {
@@ -224,7 +224,7 @@
         <main>
           <a class="back" href="#/">Places</a>
           <h2 class="place-title">Place not found</h2>
-        </main>`, "Hours Pin");
+        </main>`, "Öffnungszeit");
       return;
     }
     const now = new Date();
@@ -238,7 +238,7 @@
           <a class="quiet" href="${placeHref(place.id)}/edit">Edit hours</a>
           ${removeBlock(place)}
         </div>
-      </main>`, `${place.name} · Hours Pin`);
+      </main>`, `${place.name} · Öffnungszeit`);
   }
 
   function normTime(value) {
@@ -297,7 +297,7 @@
             <button class="btn btn-primary" type="submit">Pin place</button>
           </div>
         </form>
-      </main>`, "Add place · Hours Pin");
+      </main>`, "Add place · Öffnungszeit");
   }
 
   function renderEdit(id) {
@@ -307,7 +307,7 @@
         <main>
           <a class="back" href="#/">Places</a>
           <h2 class="place-title">Place not found</h2>
-        </main>`, "Hours Pin");
+        </main>`, "Öffnungszeit");
       return;
     }
     shell(`
@@ -321,11 +321,11 @@
             <button class="btn btn-primary" type="submit">Save</button>
           </div>
         </form>
-      </main>`, "Edit hours · Hours Pin");
+      </main>`, "Edit hours · Öffnungszeit");
   }
 
   function renderLoading() {
-    shell(`<main><p class="hint">Loading hours…</p></main>`, "Hours Pin");
+    shell(`<main><p class="hint">Loading hours…</p></main>`, "Öffnungszeit");
   }
 
   function renderError() {
@@ -336,7 +336,7 @@
           <p class="hint">Check the connection, then try again.</p>
           <button type="button" class="btn btn-primary" data-action="retry">Try again</button>
         </div>
-      </main>`, "Hours Pin");
+      </main>`, "Öffnungszeit");
   }
 
   function render() {

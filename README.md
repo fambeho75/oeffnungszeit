@@ -1,4 +1,4 @@
-# Hours Pin
+# Öffnungszeit
 
 See if a short list of Skövde shops is open right now, and what today’s hours are. Tap a place for the week and any holiday exceptions.
 
@@ -37,7 +37,7 @@ The list is stored for that origin. Another phone, another browser, or cleared s
 1. Push this folder to the repository root (or keep the same paths if you use a subfolder).
 2. In the repo: **Settings → Pages → Build and deployment → Deploy from a branch**.
 3. Branch `main`, folder `/ (root)`, then save.
-4. The site will be `https://<user>.github.io/<repo>/`.
+4. The site will be `https://fambeho75.github.io/oeffnungszeit/`.
 
 `.nojekyll` is included so GitHub Pages serves `places.json` as a file. Paths are relative, so a project site (`/<repo>/`) works without a custom domain.
 
@@ -130,7 +130,7 @@ Nothing in that key is synced.
 - `app.js` — screens
 - `hours.js` — Stockholm open/closed math
 - `places.json` — shared places, weekly hours, exceptions
-- `sw.js` — offline cache (`hours-pin-v7`)
+- `sw.js` — offline cache (`oeffnungszeit-v8`)
 - `manifest.webmanifest` — installable PWA
 - `icon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, maskable PNG icons — original clock mark
 - `test/hours.test.js` — open/closed cases, including holidays and DST

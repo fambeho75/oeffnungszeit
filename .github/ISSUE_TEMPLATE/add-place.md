@@ -1,6 +1,6 @@
 ---
 name: Add place
-about: Add a shop to the hours list
+about: Add a shop to Öffnungszeit
 title: "Add place: "
 labels: add-place
 assignees: fambeho75

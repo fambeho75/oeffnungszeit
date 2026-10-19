@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Hours Pin",
-  "short_name": "Hours Pin",
+  "name": "Öffnungszeit",
+  "short_name": "Öffnungszeit",
   "description": "See if your Skövde shops are open. Hours stay on this phone.",
   "start_url": "./",
   "scope": "./",
