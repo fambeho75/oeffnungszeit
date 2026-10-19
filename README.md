@@ -70,7 +70,7 @@ The screen shows the place name, whether it is open, and today’s hours. A plac
 - **Save**. That phone keeps your hours even after `places.json` changes. Saving the same hours as the file drops the local edit.
 - Holiday exceptions from the file still apply while a weekly edit is in place.
 - **Remove** hides a shipped place on this phone. A place you added yourself is deleted.
-- **Add place** asks for a name and the week. It is stored only on this phone.
+Tap + Add place, type the name and submit the issue; the hours get looked up and added to places.json.
 
 ## Update the shared list
 

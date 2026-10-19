@@ -514,9 +514,19 @@ input:focus { border-color: var(--accent); }
 .meta { margin-top: 6px; }
 
 .updated {
-  margin: 14px 0 0;
+  margin: 4px 0 0;
   color: var(--faint);
   font-size: 0.85rem;
+}
+
+.add-place {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 8px;
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .linkish {

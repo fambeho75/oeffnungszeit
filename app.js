@@ -4,6 +4,7 @@
   "use strict";
 
   const KEY = "hours-pin-v1";
+  const GITHUB_REPO = "fambeho75/hours-pin";
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const LOGO = `<svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="10" fill="none" stroke="#111" stroke-width="2.5"/><path d="M16 16V8M16 16H23" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="square"/></svg>`;
 
@@ -145,11 +146,13 @@
           <p class="hint">Add a shop to see if it is open.</p>
         </div>`;
     const updated = catalog.updated ? `<p class="updated">Hours updated ${esc(formatISO(catalog.updated))}</p>` : "";
+    const addBody = "Place name:\nTown: Skövde\nNotes (optional):\n";
+    const addHref = `https://github.com/${GITHUB_REPO}/issues/new?title=${encodeURIComponent("Add place: ")}&labels=add-place&body=${encodeURIComponent(addBody)}`;
     shell(`
       <main>
         ${body}
+        <p class="add-row"><a class="add-place" href="${esc(addHref)}" target="_blank" rel="noopener noreferrer">+ Add place</a></p>
         ${updated}
-        <div class="dock"><a class="btn btn-primary" href="#/add">Add place</a></div>
       </main>`, "Hours Pin");
   }
 
