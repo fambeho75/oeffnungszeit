@@ -37,10 +37,10 @@ function partsAt(iso, ymd, key, hhmm) {
 assert(hours.TZ === "Europe/Stockholm", "timezone constant");
 assert(catalog.timezone === "Europe/Stockholm", "catalog timezone");
 assert(catalog.updated === "2026-10-19", "catalog updated date");
-assert(catalog.places.length === 9, "nine shipped places");
+assert(catalog.places.length === 10, "ten shipped places");
 assert(
   JSON.stringify(catalog.places.map((place) => place.id)) ===
-    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget"]),
+    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget", "systembolaget-nolhaga"]),
   "place order"
 );
 
@@ -138,7 +138,7 @@ assert(!swedbankDates.has("2026-01-01"), "past Nyårsdagen is not repeated");
 assert(swedbank.exceptions.every((ex) => ex.hours === "closed"), "swedbank exceptions are closed");
 
 const systembolaget = byId("systembolaget");
-assert(systembolaget.name === "Systembolaget Skövde", "systembolaget name");
+assert(systembolaget.name === "Systembolaget Centrum", "systembolaget name");
 assert(systembolaget.address === "Hertig Johans Torg 4, 541 30 Skövde", "systembolaget address");
 assert(systembolaget.source === "systembolaget.se", "systembolaget source");
 ["mon", "tue", "wed", "thu"].forEach((key) => sameSlots(systembolaget.hours[key], "10:00", "18:00"));
@@ -167,6 +167,30 @@ assert(hours.statusAt(systembolaget, new Date("2027-03-27T13:59:00Z")) === "open
 assert(hours.statusAt(systembolaget, new Date("2027-03-27T14:00:00Z")) === "closed", "systembolaget Påskafton closes 15:00");
 assert(hours.statusAt(systembolaget, new Date("2027-06-25T10:00:00Z")) === "closed", "systembolaget Midsommarafton");
 assert(hours.todayLine(systembolaget, new Date("2026-12-31T12:00:00Z")) === "10:00–15:00", "systembolaget Nyårsafton line");
+
+const nolhaga = byId("systembolaget-nolhaga");
+assert(nolhaga.name === "Systembolaget Nolhaga", "nolhaga name");
+assert(nolhaga.address === "Nolhagavägen 1, 549 38 Skövde", "nolhaga address");
+assert(nolhaga.source === "systembolaget.se", "nolhaga source");
+assert(nolhaga.website.endsWith("/nolhagavagen-1-1617/"), "nolhaga store page");
+["mon", "tue", "wed", "thu", "fri"].forEach((key) => sameSlots(nolhaga.hours[key], "10:00", "19:00"));
+sameSlots(nolhaga.hours.sat, "10:00", "15:00");
+assert(nolhaga.hours.sun === "closed", "nolhaga sunday");
+assert(JSON.stringify(nolhaga.exceptions) === JSON.stringify(systembolaget.exceptions), "nolhaga uses the centre holiday rows");
+assert(hours.statusAt(nolhaga, new Date("2026-10-19T07:59:00Z")) === "closed", "nolhaga before 10:00");
+assert(hours.statusAt(nolhaga, new Date("2026-10-19T08:00:00Z")) === "open", "nolhaga opens 10:00");
+assert(hours.statusAt(nolhaga, new Date("2026-10-19T16:30:00Z")) === "open", "nolhaga Monday 18:30");
+assert(hours.statusAt(nolhaga, new Date("2026-10-19T16:59:00Z")) === "open", "nolhaga Monday 18:59");
+assert(hours.statusAt(nolhaga, new Date("2026-10-19T17:00:00Z")) === "closed", "nolhaga Monday closes 19:00");
+assert(hours.statusAt(nolhaga, new Date("2026-10-24T12:59:00Z")) === "open", "nolhaga Saturday 14:59");
+assert(hours.statusAt(nolhaga, new Date("2026-10-24T13:00:00Z")) === "closed", "nolhaga Saturday closes 15:00");
+assert(hours.statusAt(nolhaga, new Date("2026-10-25T08:00:00Z")) === "closed", "nolhaga Sunday");
+assert(hours.statusAt(nolhaga, new Date("2026-10-31T08:00:00Z")) === "closed", "nolhaga Alla helgons dag");
+assert(hours.statusAt(nolhaga, new Date("2026-12-24T10:00:00Z")) === "closed", "nolhaga Julafton");
+assert(hours.statusAt(nolhaga, new Date("2026-12-31T13:59:00Z")) === "open", "nolhaga Nyårsafton 14:59");
+assert(hours.statusAt(nolhaga, new Date("2026-12-31T14:00:00Z")) === "closed", "nolhaga Nyårsafton closes 15:00");
+assert(hours.todayLine(nolhaga, new Date("2026-12-31T12:00:00Z")) === "10:00–15:00", "nolhaga Nyårsafton line");
+assert(hours.statusAt(nolhaga, new Date("2027-06-25T10:00:00Z")) === "closed", "nolhaga Midsommarafton");
 
 const splitDay = {
   hours: {
