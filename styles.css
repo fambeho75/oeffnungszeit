@@ -1,6 +1,8 @@
-/* Hours Pin — flat violet on black, hard edges, no glow. */
+/* Hours Pin — flat violet, hard edges, no glow.
+   Dark is the default. Light overrides sit on [data-theme="light"]. */
 
 :root {
+  color-scheme: dark;
   --bg: #0a0a0a;
   --surface: #111111;
   --border: #333333;
@@ -8,10 +10,27 @@
   --muted: #c8c8c8;
   --faint: #8a8a8a;
   --accent: #8b5cf6;
+  --accent-ink: #8b5cf6;
   --accent-press: #7c3aed;
   --on-accent: #111111;
+  --hover: #161616;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --border: #d4d4d8;
+  --text: #111111;
+  --muted: #3f3f46;
+  --faint: #52525b;
+  --accent: #8b5cf6;
+  --accent-ink: #7c3aed;
+  --accent-press: #6d28d9;
+  --on-accent: #000000;
+  --hover: #ececef;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -72,6 +91,11 @@ header {
 
 .logo svg { display: block; }
 
+.brand-block {
+  flex: 1;
+  min-width: 0;
+}
+
 .brand {
   margin: 0;
   font-size: 1.35rem;
@@ -79,6 +103,24 @@ header {
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
+
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.theme-toggle svg { display: block; }
+
+.theme-toggle:active { background: var(--hover); }
 
 .tagline {
   margin: 2px 0 0;
@@ -99,7 +141,7 @@ main {
   align-items: center;
   min-height: 44px;
   margin: 0 0 8px;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
   text-decoration: none;
 }
@@ -133,7 +175,7 @@ main {
   text-decoration: none;
 }
 
-.place:active { background: #161616; }
+.place:active { background: var(--hover); }
 
 .place-main { min-width: 0; }
 
@@ -173,7 +215,7 @@ main {
 }
 
 .tag {
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -254,7 +296,7 @@ main {
   margin: 0 0 14px;
   padding: 12px;
   border: 1px solid var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
 }
 
@@ -292,7 +334,7 @@ main {
 .today-tag {
   display: block;
   margin-top: 2px;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -300,7 +342,7 @@ main {
 }
 
 .ex-name {
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
 }
 
@@ -328,7 +370,7 @@ details.later summary {
   display: flex;
   align-items: center;
   min-height: 48px;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
   cursor: pointer;
   list-style: none;
@@ -354,7 +396,7 @@ details.later summary::-webkit-details-marker { display: none; }
   cursor: pointer;
 }
 
-.btn:active { background: #161616; }
+.btn:active { background: var(--hover); }
 
 .btn-primary {
   min-height: 64px;
@@ -382,7 +424,7 @@ details.later summary::-webkit-details-marker { display: none; }
   align-items: center;
   min-height: 44px;
   margin-top: 8px;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 700;
   text-decoration: none;
 }
@@ -390,5 +432,5 @@ details.later summary::-webkit-details-marker { display: none; }
 .noscript { padding: 24px 18px; }
 
 @media (hover: hover) {
-  .place:hover { background: #161616; }
+  .place:hover { background: var(--hover); }
 }

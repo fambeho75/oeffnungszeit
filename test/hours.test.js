@@ -1,7 +1,9 @@
 "use strict";
 
+const fs = require("fs");
 const path = require("path");
 const hours = require(path.join(__dirname, "..", "hours.js"));
+const theme = require(path.join(__dirname, "..", "theme.js"));
 const catalog = require(path.join(__dirname, "..", "places.json"));
 
 let failed = 0;
@@ -321,6 +323,28 @@ assert(hours.statusAt(ranged, new Date("2026-12-25T10:30:00Z")) === "open", "exa
 assert(hours.resolveDay(ranged, new Date("2026-12-25T10:30:00Z")).label === "Juldagen", "exact label");
 assert(hours.statusAt(ranged, new Date("2026-12-25T11:00:00Z")) === "closed", "exact span ends at 12:00");
 assert(hours.statusAt(ranged, new Date("2026-12-26T12:00:00Z")) === "closed", "range still closes the 26th");
+
+assert(theme.KEY === "oeffnungszeit-theme", "theme storage key");
+assert(theme.KEY !== "hours-pin-v1", "theme key is separate from the cleared pin key");
+assert(theme.normalize("light") === "light", "normalize light");
+assert(theme.normalize("dark") === "dark", "normalize dark");
+assert(theme.normalize("nope") === "dark" && theme.normalize(null) === "dark", "unknown theme falls back to dark");
+assert(theme.toggle("dark") === "light" && theme.toggle("light") === "dark", "toggle flips the theme");
+assert(theme.toggle("nope") === "light", "toggle of an unknown value starts from dark");
+assert(theme.color("dark") === "#0a0a0a" && theme.color("nope") === "#0a0a0a", "dark theme colour");
+assert(theme.color("light") === "#f7f7f8", "light theme colour");
+
+const indexHtml = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const appJs = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
+const css = fs.readFileSync(path.join(__dirname, "..", "styles.css"), "utf8");
+assert(indexHtml.includes('data-theme="dark"'), "dark is the default attribute");
+assert(indexHtml.includes('localStorage.getItem("oeffnungszeit-theme")'), "inline script reads the theme key");
+assert(indexHtml.includes("#f7f7f8") && indexHtml.includes("#0a0a0a"), "inline script sets both theme colours");
+assert(!indexHtml.includes("hours-pin-v1"), "inline script does not touch the pin key");
+assert(appJs.includes('data-action="theme"') && appJs.includes("HoursTheme"), "header toggle uses HoursTheme");
+assert(appJs.includes('const KEY = "hours-pin-v1"') && appJs.includes("localStorage.removeItem(KEY)"), "pin key is still the only key cleared on load");
+assert(!appJs.includes("oeffnungszeit-theme"), "app stores the theme through HoursTheme.KEY");
+assert(css.includes('[data-theme="light"]') && css.includes("--accent-ink: #7c3aed") && css.includes("--bg: #f7f7f8"), "light theme tokens");
 
 console.log(`${passed} passed, ${failed} failed`);
 if (failed) process.exit(1);

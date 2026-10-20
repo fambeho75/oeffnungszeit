@@ -118,12 +118,13 @@ Older copies stored phone edits in `localStorage` under `hours-pin-v1`. The app 
 
 ## Files
 
-- `index.html` — page shell
-- `styles.css` — flat violet `#8b5cf6` on black
-- `app.js` — screens
+- `index.html` — page shell. A short script in `<head>` applies the saved theme before first paint.
+- `styles.css` — flat violet `#8b5cf6`. Dark is the default; light tokens sit on `data-theme="light"`.
+- `theme.js` — theme key `oeffnungszeit-theme`, separate from the cleared `hours-pin-v1` key
+- `app.js` — screens and the header theme button
 - `hours.js` — Stockholm open/closed math
 - `places.json` — shared places, weekly hours, exceptions
-- `sw.js` — offline cache (`oeffnungszeit-v10`)
+- `sw.js` — offline cache (`oeffnungszeit-v11`)
 - `manifest.webmanifest` — installable PWA
 - `icon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, maskable PNG icons — original clock mark
 - `test/hours.test.js` — open/closed cases, including holidays and DST

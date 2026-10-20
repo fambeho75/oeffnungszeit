@@ -9,6 +9,8 @@
   const GITHUB_ASSIGNEE = "fambeho75";
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const LOGO = `<svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="10" fill="none" stroke="#111" stroke-width="2.5"/><path d="M16 16V8M16 16H23" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="square"/></svg>`;
+  const SUN = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12h2.5M19 12h2.5M5.1 5.1l1.8 1.8M17.1 17.1l1.8 1.8M18.9 5.1l-1.8 1.8M6.9 17.1l-1.8 1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>`;
+  const MOON = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 3.5a8.2 8.2 0 1 0 5.5 14.2A7 7 0 0 1 15 3.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"/></svg>`;
 
   let catalog = null;
   let fetchedAt = 0;
@@ -86,14 +88,49 @@
     return { status: HoursPin.statusAt(place, date), line };
   }
 
+  function currentTheme() {
+    return HoursTheme.normalize(document.documentElement.getAttribute("data-theme"));
+  }
+
+  function syncThemeButton() {
+    const btn = document.querySelector(".theme-toggle");
+    if (!btn) return;
+    const dark = currentTheme() === "dark";
+    btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+    btn.innerHTML = dark ? SUN : MOON;
+  }
+
+  function applyTheme(theme) {
+    const next = HoursTheme.normalize(theme);
+    document.documentElement.setAttribute("data-theme", next);
+    const color = HoursTheme.color(next);
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeMeta) themeMeta.setAttribute("content", color);
+    const schemeMeta = document.querySelector('meta[name="color-scheme"]');
+    if (schemeMeta) schemeMeta.setAttribute("content", next);
+    try {
+      localStorage.setItem(HoursTheme.KEY, next);
+    } catch (err) {
+      /* choice still applies for this visit */
+    }
+    syncThemeButton();
+  }
+
+  function themeButton() {
+    const dark = currentTheme() === "dark";
+    const label = dark ? "Switch to light mode" : "Switch to dark mode";
+    return `<button type="button" class="theme-toggle" data-action="theme" aria-label="${label}">${dark ? SUN : MOON}</button>`;
+  }
+
   function header() {
     return `
       <header>
         <div class="logo" aria-hidden="true">${LOGO}</div>
-        <div>
+        <div class="brand-block">
           <h1 class="brand">Öffnungszeit</h1>
           <p class="tagline" id="clock">${esc(clockText(new Date()))}</p>
         </div>
+        ${themeButton()}
       </header>`;
   }
 
@@ -230,6 +267,10 @@
   function onClick(event) {
     const btn = event.target.closest("[data-action]");
     if (!btn) return;
+    if (btn.dataset.action === "theme") {
+      applyTheme(HoursTheme.toggle(currentTheme()));
+      return;
+    }
     if (btn.dataset.action === "retry") boot();
   }
 
