@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <title>Öffnungszeit</title>
-  <rect width="512" height="512" fill="#ff6a00"/>
+  <rect width="512" height="512" fill="#8b5cf6"/>
   <circle cx="256" cy="256" r="168" fill="none" stroke="#111111" stroke-width="36"/>
   <path d="M256 256V112M256 256H400" fill="none" stroke="#111111" stroke-width="36" stroke-linecap="square"/>
 </svg>

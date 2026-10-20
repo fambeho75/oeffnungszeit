@@ -1,4 +1,4 @@
-/* Hours Pin — flat orange on black, hard edges, no glow. */
+/* Hours Pin — flat violet on black, hard edges, no glow. */
 
 :root {
   --bg: #0a0a0a;
@@ -7,8 +7,8 @@
   --text: #ffffff;
   --muted: #c8c8c8;
   --faint: #8a8a8a;
-  --accent: #ff6a00;
-  --accent-press: #e55f00;
+  --accent: #8b5cf6;
+  --accent-press: #7c3aed;
   --on-accent: #111111;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);

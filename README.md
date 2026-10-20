@@ -119,11 +119,11 @@ Older copies stored phone edits in `localStorage` under `hours-pin-v1`. The app 
 ## Files
 
 - `index.html` — page shell
-- `styles.css` — flat orange `#ff6a00` on black
+- `styles.css` — flat violet `#8b5cf6` on black
 - `app.js` — screens
 - `hours.js` — Stockholm open/closed math
 - `places.json` — shared places, weekly hours, exceptions
-- `sw.js` — offline cache (`oeffnungszeit-v9`)
+- `sw.js` — offline cache (`oeffnungszeit-v10`)
 - `manifest.webmanifest` — installable PWA
 - `icon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, maskable PNG icons — original clock mark
 - `test/hours.test.js` — open/closed cases, including holidays and DST
