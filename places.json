@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19",
+  "updated": "2026-10-22",
   "timezone": "Europe/Stockholm",
   "places": [
     {
@@ -1478,6 +1478,50 @@
       ],
       "source": "spicenrice.se",
       "checked": "2026-10-19"
+    },
+    {
+      "id": "ekens-djurklinik",
+      "name": "Ekens Djurklinik",
+      "address": "Grenanders gata 11, 541 35 Skövde",
+      "website": "https://ekensdjurklinik.se/kontakt/",
+      "note": "Veterinary clinic on Östermalm in Skövde. Clinic hours on ekensdjurklinik.se are Mon–Fri 08:00–17:00. Telefontid 07:30–17:00 is the phone line, not the clinic opening, so it is not used. Saturday and Sunday are not listed under ordinarie öppettider. The site publishes no Skövde holiday exceptions. The Tidaholm filial (Ulvestorpsgatan 3 A) is a different schedule and is not this entry.",
+      "hours": {
+        "mon": [
+          {
+            "open": "08:00",
+            "close": "17:00"
+          }
+        ],
+        "tue": [
+          {
+            "open": "08:00",
+            "close": "17:00"
+          }
+        ],
+        "wed": [
+          {
+            "open": "08:00",
+            "close": "17:00"
+          }
+        ],
+        "thu": [
+          {
+            "open": "08:00",
+            "close": "17:00"
+          }
+        ],
+        "fri": [
+          {
+            "open": "08:00",
+            "close": "17:00"
+          }
+        ],
+        "sat": "closed",
+        "sun": "closed"
+      },
+      "exceptions": [],
+      "source": "ekensdjurklinik.se",
+      "checked": "2026-10-22"
     }
   ]
 }

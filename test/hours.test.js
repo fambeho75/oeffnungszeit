@@ -38,11 +38,11 @@ function partsAt(iso, ymd, key, hhmm) {
 
 assert(hours.TZ === "Europe/Stockholm", "timezone constant");
 assert(catalog.timezone === "Europe/Stockholm", "catalog timezone");
-assert(catalog.updated === "2026-10-19", "catalog updated date");
-assert(catalog.places.length === 11, "eleven shipped places");
+assert(catalog.updated === "2026-10-22", "catalog updated date");
+assert(catalog.places.length === 12, "twelve shipped places");
 assert(
   JSON.stringify(catalog.places.map((place) => place.id)) ===
-    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget", "systembolaget-nolhaga", "spice-n-rice"]),
+    JSON.stringify(["soptippen", "coop-vipan", "stora-coop", "ica-maxi", "lidl", "willys", "biltema", "swedbank", "systembolaget", "systembolaget-nolhaga", "spice-n-rice", "ekens-djurklinik"]),
   "place order"
 );
 
@@ -216,6 +216,25 @@ assert(hours.statusAt(spice, new Date("2026-12-31T13:59:00Z")) === "open", "spic
 assert(hours.statusAt(spice, new Date("2026-12-31T14:00:00Z")) === "closed", "spice Nyårsafton closes 15:00");
 assert(hours.todayLine(spice, new Date("2026-12-31T12:00:00Z")) === "10:00–15:00", "spice Nyårsafton line");
 assert(!spice.exceptions.some((ex) => ex.date === "2027-06-25"), "spice does not invent Midsommarafton");
+
+const ekens = byId("ekens-djurklinik");
+assert(ekens.name === "Ekens Djurklinik", "ekens name");
+assert(ekens.address === "Grenanders gata 11, 541 35 Skövde", "ekens address");
+assert(ekens.website === "https://ekensdjurklinik.se/kontakt/", "ekens website");
+assert(ekens.source === "ekensdjurklinik.se", "ekens source");
+assert(ekens.checked === "2026-10-22", "ekens checked date");
+["mon", "tue", "wed", "thu", "fri"].forEach((key) => sameSlots(ekens.hours[key], "08:00", "17:00"));
+assert(ekens.hours.sat === "closed" && ekens.hours.sun === "closed", "ekens weekend closed");
+assert(Array.isArray(ekens.exceptions) && ekens.exceptions.length === 0, "ekens has no invented holiday exceptions");
+assert(hours.statusAt(ekens, new Date("2026-10-22T05:30:00Z")) === "closed", "ekens 07:30 phone hour is still closed");
+assert(hours.statusAt(ekens, new Date("2026-10-22T05:59:00Z")) === "closed", "ekens Thursday before 08:00");
+assert(hours.statusAt(ekens, new Date("2026-10-22T06:00:00Z")) === "open", "ekens Thursday 08:00");
+assert(hours.statusAt(ekens, new Date("2026-10-22T14:59:00Z")) === "open", "ekens Thursday 16:59");
+assert(hours.statusAt(ekens, new Date("2026-10-22T15:00:00Z")) === "closed", "ekens Thursday closes 17:00");
+assert(hours.statusAt(ekens, new Date("2026-10-24T08:00:00Z")) === "closed", "ekens Saturday");
+assert(hours.statusAt(ekens, new Date("2026-10-18T08:00:00Z")) === "closed", "ekens Sunday");
+assert(hours.statusAt(ekens, new Date("2026-12-24T07:00:00Z")) === "open", "ekens Julafton follows Thursday hours");
+assert(hours.todayLine(ekens, new Date("2026-12-24T07:00:00Z")) === "08:00–17:00", "ekens Julafton line");
 
 const splitDay = {
   hours: {
