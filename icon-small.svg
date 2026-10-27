@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#b79cfc"/><stop offset="0.45" stop-color="#9469f2"/><stop offset="1" stop-color="#6d28d9"/></linearGradient>
+ <radialGradient id="glow" cx="0.28" cy="0.2" r="0.75">
+  <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+ <radialGradient id="vig" cx="0.5" cy="0.5" r="0.72">
+  <stop offset="0.7" stop-color="#2e1065" stop-opacity="0"/><stop offset="1" stop-color="#2e1065" stop-opacity="0.22"/></radialGradient>
+ <linearGradient id="ring" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#fbf9ff"/></linearGradient>
+ <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#ece6fe"/><stop offset="0.3" stop-color="#f5f1ff"/><stop offset="1" stop-color="#fcfbff"/></linearGradient>
+ <linearGradient id="hand" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+</defs>
+<rect width="1024" height="1024" rx="228" fill="url(#bg)"/>
+<rect width="1024" height="1024" rx="228" fill="url(#glow)"/>
+<rect width="1024" height="1024" rx="228" fill="url(#vig)"/>
+<g transform="translate(-81.9,-81.9) scale(1.16)">
+<circle cx="512.8" cy="588.6" r="276.6" fill="#2e1065" opacity="0.028"/>
+<circle cx="422.4" cy="221.4" r="46.3" fill="#2e1065" opacity="0.028"/>
+<circle cx="602.4" cy="221.4" r="46.3" fill="#2e1065" opacity="0.028"/>
+<circle cx="513.6" cy="591.2" r="277.2" fill="#2e1065" opacity="0.028"/>
+<circle cx="422.8" cy="222.8" r="46.6" fill="#2e1065" opacity="0.028"/>
+<circle cx="602.8" cy="222.8" r="46.6" fill="#2e1065" opacity="0.028"/>
+<circle cx="514.4" cy="593.8" r="277.8" fill="#2e1065" opacity="0.028"/>
+<circle cx="423.2" cy="224.2" r="46.9" fill="#2e1065" opacity="0.028"/>
+<circle cx="603.2" cy="224.2" r="46.9" fill="#2e1065" opacity="0.028"/>
+<circle cx="515.2" cy="596.4" r="278.4" fill="#2e1065" opacity="0.028"/>
+<circle cx="423.6" cy="225.6" r="47.2" fill="#2e1065" opacity="0.028"/>
+<circle cx="603.6" cy="225.6" r="47.2" fill="#2e1065" opacity="0.028"/>
+<circle cx="516.0" cy="599.0" r="279.0" fill="#2e1065" opacity="0.028"/>
+<circle cx="424.0" cy="227.0" r="47.5" fill="#2e1065" opacity="0.028"/>
+<circle cx="604.0" cy="227.0" r="47.5" fill="#2e1065" opacity="0.028"/>
+<circle cx="516.8" cy="601.6" r="279.6" fill="#2e1065" opacity="0.028"/>
+<circle cx="424.4" cy="228.4" r="47.8" fill="#2e1065" opacity="0.028"/>
+<circle cx="604.4" cy="228.4" r="47.8" fill="#2e1065" opacity="0.028"/>
+<circle cx="517.6" cy="604.2" r="280.2" fill="#2e1065" opacity="0.028"/>
+<circle cx="424.8" cy="229.8" r="48.1" fill="#2e1065" opacity="0.028"/>
+<circle cx="604.8" cy="229.8" r="48.1" fill="#2e1065" opacity="0.028"/>
+<circle cx="518.4" cy="606.8" r="280.8" fill="#2e1065" opacity="0.028"/>
+<circle cx="425.2" cy="231.2" r="48.4" fill="#2e1065" opacity="0.028"/>
+<circle cx="605.2" cy="231.2" r="48.4" fill="#2e1065" opacity="0.028"/>
+<circle cx="519.2" cy="609.4" r="281.4" fill="#2e1065" opacity="0.028"/>
+<circle cx="425.6" cy="232.6" r="48.7" fill="#2e1065" opacity="0.028"/>
+<circle cx="605.6" cy="232.6" r="48.7" fill="#2e1065" opacity="0.028"/>
+<circle cx="520.0" cy="612.0" r="282.0" fill="#2e1065" opacity="0.028"/>
+<circle cx="426.0" cy="234.0" r="49.0" fill="#2e1065" opacity="0.028"/>
+<circle cx="606.0" cy="234.0" r="49.0" fill="#2e1065" opacity="0.028"/>
+<circle cx="422" cy="220" r="46" fill="url(#ring)"/>
+<circle cx="602" cy="220" r="46" fill="url(#ring)"/>
+<circle cx="512" cy="586" r="276" fill="url(#ring)"/>
+<circle cx="512" cy="583" r="188" fill="#c4b5fd" opacity="0.38"/>
+<circle cx="512" cy="586" r="186" fill="url(#face)"/>
+<line x1="529.7" y1="603.3" x2="413.4" y2="521.9" stroke="#4c1d95" stroke-opacity="0.16" stroke-width="61.0" stroke-linecap="round"/>
+<line x1="499.4" y1="602.0" x2="662.2" y2="508.0" stroke="#4c1d95" stroke-opacity="0.16" stroke-width="52.0" stroke-linecap="round"/>
+<line x1="526.7" y1="596.3" x2="410.4" y2="514.9" stroke="url(#hand)" stroke-width="57.0" stroke-linecap="round"/>
+<line x1="496.4" y1="595.0" x2="659.2" y2="501.0" stroke="url(#hand)" stroke-width="48.0" stroke-linecap="round"/>
+<circle cx="512" cy="586" r="32" fill="#7c3aed"/>
+<circle cx="512" cy="586" r="11" fill="#ede9fe"/>
+</g></svg>

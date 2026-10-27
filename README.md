@@ -125,9 +125,9 @@ Older copies stored phone edits in `localStorage` under `hours-pin-v1`. The app 
 - `app.js` — screens and the header theme button
 - `hours.js` — Stockholm open/closed math
 - `places.json` — shared places, weekly hours, exceptions
-- `sw.js` — offline cache (`oeffnungszeit-v11`)
+- `sw.js` — offline cache (`oeffnungszeit-v12`)
 - `manifest.webmanifest` — installable PWA
-- `icon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, maskable PNG icons — original clock mark
+- `icon.svg`, `icon-rounded.svg`, `icon-maskable.svg`, `icon-small.svg`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, maskable PNG icons — alarm-clock mark
 - `test/hours.test.js` — open/closed cases, including holidays and DST
 
 ## Routine for the next refresh

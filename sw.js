@@ -1,7 +1,7 @@
 /* Hours Pin — offline cache.
    Bump CACHE when HTML, CSS, or JS changes so old shells are dropped.
    places.json is network-first, so a hours-only update does not need a bump. */
-const CACHE = "oeffnungszeit-v11";
+const CACHE = "oeffnungszeit-v12";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,14 +10,14 @@ const ASSETS = [
   "./hours.js?v=2",
   "./app.js?v=10",
   "./places.json",
-  "./manifest.webmanifest",
-  "./icon.svg",
-  "./favicon-32.png",
-  "./apple-touch-icon.png",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./icon-maskable-192.png",
-  "./icon-maskable-512.png",
+  "./manifest.webmanifest?v=3",
+  "./icon.svg?v=3",
+  "./favicon-32.png?v=3",
+  "./apple-touch-icon.png?v=3",
+  "./icon-192.png?v=3",
+  "./icon-512.png?v=3",
+  "./icon-maskable-192.png?v=3",
+  "./icon-maskable-512.png?v=3",
 ];
 
 self.addEventListener("install", (event) => {
